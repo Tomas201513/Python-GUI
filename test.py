@@ -223,6 +223,20 @@ button.pack()
 
 
 
+#color chooser
+def click():
+  color=colorchooser.askcolor()
+  print(color)
+  hex=color[1]
+  window.config(bg=hex)
+
+from tkinter import colorchooser
+button4=Button(text='clickme',command=click)
+button4.pack()
+
+
+
+
 
 
 
