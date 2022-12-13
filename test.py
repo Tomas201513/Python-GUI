@@ -3,13 +3,13 @@ from tkinter import *
 window = Tk()
 window.geometry("620x820")
 window.title("tomiii")
-icon=PhotoImage(file='botdog.png')
+icon=PhotoImage(file='./pic/botdog.png')
 window.iconphoto(True,icon)
 window.config(background="#D4D4D4")
 
 
 #Label
-photo=PhotoImage(file='Selenium_log.png')
+photo=PhotoImage(file='./pic/Selenium_log.png')
 label=Label(window,# text='Selenium',font=('Arial',40,'bold'),# bg='green',# bd='20',
              padx='40',pady='40',relief=RAISED,image=photo,compound='bottom',)
 # label.config(text='selenium')...we can also give the atributes like this
@@ -25,7 +25,7 @@ def click():
     count+=1
     x="😊"
     print(x*count)
-photo=PhotoImage(file='click.png')
+photo=PhotoImage(file='./pic/click.png')
 button=Button(window,text='click here!',command=click,font=("Comic Sana",30),fg="#053E11",bd="5",
                     activebackground="#457D8C",activeforeground="black",state=ACTIVE,image=photo,)
 button.pack()
