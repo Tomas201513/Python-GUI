@@ -182,7 +182,43 @@ delete.pack()
 
 
 
+# messagebox
+from tkinter import messagebox
 
+def click():
+    messagebox.showinfo(title='tom messagebox',message='hi')
+   
+    messagebox.showwarning(title='warning!',message="i warn you")
+   
+    while(True):
+        messagebox.showwarning(title='warning!',message="i warn you")
+
+    if messagebox.askokcancel(title='ask ok cancil',message='are you sure'):
+        print('ok')
+    else:
+        print('cancil')
+
+    if messagebox.askretrycancel(title='ask ok cancil',message='are you sure'):
+        print('retry')
+    else:
+        print('cancil')
+
+    if messagebox.askyesno(title='ask ok cancil',message='do u code?',icon='warning'):
+        print('yes')
+    else:
+        print('no')
+
+    ans=messagebox.askyesno(title='ask ok cancil',message='do u code?',icon='info')
+    if(ans=='yes'):
+        print('do stng here')
+    else:
+        print('do stng here')
+
+    print(messagebox.askyesnocancel(title='ask ok cancil',message='do u code?',icon='error'))
+
+
+button=Button(window,command=click,text='click me')
+button.pack()
 
 
 
