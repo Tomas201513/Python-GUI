@@ -1,5 +1,6 @@
 from tkinter import *
-
+from tkinter.ttk import * # gives us extra widgets
+# windows 🖼️
 window = Tk()
 window.geometry("620x820")
 window.title("tomiii")
@@ -8,7 +9,7 @@ window.title("tomiii")
 window.config(background="#D4D4D4")
 
 
-# #Label
+# #labels 🏷️
 # photo=PhotoImage(file='./pic/Selenium_log.png')
 # label=Label(window,# text='Selenium',font=('Arial',40,'bold'),# bg='green',# bd='20',
 #              padx='40',pady='40',relief=RAISED,image=photo,compound='bottom',)
@@ -18,7 +19,7 @@ window.config(background="#D4D4D4")
 
 
 
-# #Buttons
+# #buttons 🛎️
 # count=0
 # def click():
 #     global count
@@ -31,7 +32,7 @@ window.config(background="#D4D4D4")
 # button.pack()
 
 
-# #entry widget (Submiting text)
+# #entry ⌨️ (Submiting text)
 # def submit():
 #     name=entry.get()
 #     print("hellow "+name )
@@ -58,7 +59,7 @@ window.config(background="#D4D4D4")
 
 
 
-# #check button with integer variable...we can also use string...
+# # checkbutton ✔️ with integer variable...we can also use string...
 # # def display():
 # #     if (x.get()==1):
 # #         print("🥳")
@@ -82,7 +83,7 @@ window.config(background="#D4D4D4")
 
 
 
-# # Radiobuttons
+# # radiobuttons 🔘
 # phone=["samsung","iphone",'nokia']
 
 # def order():
@@ -107,7 +108,7 @@ window.config(background="#D4D4D4")
 
 
 
-# #scale
+# #scale 🌡️
 # def submit():
 #     print(f"temprature is {scale.get()}")
 # scale=Scale(window,from_=150,to=0,length=300,font=('console',10),orient=VERTICAL,
@@ -128,7 +129,7 @@ window.config(background="#D4D4D4")
 
 
 
-# listbox--is selectable list
+# #listbox 📋--is selectable list
 
 # #listbox add/remove single value
 # def submit1():
@@ -182,7 +183,7 @@ window.config(background="#D4D4D4")
 
 
 
-# # messagebox
+# # messagebox 💭
 # from tkinter import messagebox
 
 # def click():
@@ -223,7 +224,7 @@ window.config(background="#D4D4D4")
 
 
 
-# #color chooser
+# # colorchooser 🎨
 # def click():
 #   color=colorchooser.askcolor()
 #   print(color)
@@ -236,7 +237,7 @@ window.config(background="#D4D4D4")
 
 
 
-#textarea
+## text area 📒
 # def submit():
 #     input=text.get("1.0",END)
 #     print(input)
@@ -249,7 +250,7 @@ window.config(background="#D4D4D4")
 
 
 
-# #filedialogue open
+# # filedialog open 📁
 # from tkinter import filedialog
 
 # def openfile():   
@@ -263,7 +264,7 @@ window.config(background="#D4D4D4")
 
 
 
-# #filedialogue save
+# # filedialog save 💾
 # from tkinter import filedialog
 # def savefile():
 #   file=filedialog.asksaveasfile(defaultextension='.txt',initialdir='/home/amin/Documents/GitHub/Python-GUI'
@@ -282,7 +283,7 @@ window.config(background="#D4D4D4")
 
 
 
-# # menubar
+# # menubar 🧾
 
 # def openfile():
 #     pass
@@ -320,7 +321,7 @@ window.config(background="#D4D4D4")
 
 
 
-# #frames
+# #frames 🗃️
 # frame=Frame(window,bg='pink')
 # frame.pack()
 
@@ -347,9 +348,9 @@ window.config(background="#D4D4D4")
 
 
 
-# #Tabs
-# from tkinter import ttk # gives us extra widgets
-# notebook=ttk.Notebook(window)
+# # window tabs 📑
+
+# notebook=Notebook(window)
 # tab1=Frame(notebook)
 # tab2=Frame(notebook)
 
@@ -362,14 +363,147 @@ window.config(background="#D4D4D4")
 
 
 
+# #grid geometry manager 🏢--think it as raw & column
+# Label(window,text='title',font=("arial",25)).grid(row=0,column=0,columnspan=2)
+
+# lable=Label(window,text='name',width=50,bg='pink')
+# lable.grid(row=1,column=0)
+# namentr=Entry(window,)
+# namentr.grid(row=1,column=1)
+
+# lable=Label(window,text='email',width=25,bg='pink')
+# lable.grid(row=2,column=0)
+# namentr=Entry(window)
+# namentr.grid(row=2,column=1)
+
+# butt=Button(window,text='submit')
+# butt.grid(row=3,column=0,columnspan=2)#span makes it like in between columns
 
 
 
 
+# # progressbar 📊
+# import time
+# def start():
+#     GB=100
+#     download=0
+#     speed=1
+#     while(download<GB):
+#         time.sleep(0.05)
+#         bar['value']+=(speed/GB)*100
+#         download+=speed
+#         percent.set(f"{int(((download/GB)*100))} %")
+#         text.set(f"{str(download)}/{str(GB)} GB completed")
+#         window.update_idletasks()
+
+# percent=StringVar()
+# text=StringVar()
+# bar=Progressbar(window,orient=HORIZONTAL,length=300)
+# bar.pack(pady=10)
+# percentlable=Label(window,textvariable=percent)
+# percentlable.pack()
+# textlable=Label(window,textvariable=text)
+# textlable.pack()
+# butt=Button(window,text='download',command=start)
+# butt.pack()
 
 
 
 
+# # canvas 🎨  to draw graphes,plots,images
+
+# canvas=Canvas(window,height=500,width=500)
+# canvas.create_line(0,0,500,500,fill='blue',width='5') #top left corner is 0,0
+# canvas.create_line(0,500,500,0,fill='red',width='5')
+# canvas.create_rectangle(200,50,300,300)
+
+# points=[250,200,400,400,100,400]
+# canvas.create_polygon(points,fill='yellow', outline='black',width=5)
+# canvas.create_arc(0,0,200,200,fill='pink', style=PIESLICE,start=90,extent=180)
+# canvas.pack()
+
+
+
+# key events ⌨️
+
+# # window.bind(event,function)
+# def dosmtg(event):
+#     print("you did a thing!")
+# window.bind("<Key>",dosmtg)
+
+
+#key event that display what key is pressed
+# def dosmtg(event):
+#     label.config(text=event.keysym)
+# window.bind("<Key>",dosmtg)
+
+# label=Label(window,font=("Helvertica",100))
+# label.pack()
+
+
+
+# #mouse events 🖱️
+# def dosmtg(event):
+#     print(f" mouse coordinates {str(event.x)},{str(event.x)}")
+# window.bind("<Button-1>",dosmtg)#left mouse clock
+# window.bind("<Button-2>",dosmtg)#scroll wheel
+# window.bind("<Button-3>",dosmtg)#right mouse click
+# window.bind("<ButtonRelease>",dosmtg)#display when we release button
+# window.bind("<Enter>",dosmtg)#when we pressv enter key 
+# window.bind("<Leave>",dosmtg)# display coordinate as soon as we leave the window
+# window.bind("<Motion>",dosmtg)#where the mouse moving
+
+
+
+# # drag & drop 👈
+# def drag_start(event):
+#     widget=event.widget
+#     widget.startX=event.x
+#     widget.startY=event.x
+# def drag_motion(event):
+#     widget=event.widget
+#     x=widget.winfo_x()-widget.startX+event.x
+#     y=widget.winfo_y()-widget.startY+event.y
+#     widget.place(x=x,y=y)
+
+# label=Label(window,background="green",width=10)
+# label.place(x=0,y=0)
+# label.bind("<Button-1>",drag_start)
+# label.bind("<B1-Motion>",drag_motion)
+
+# label2=Label(window,background="yellow",width=10)
+# label2.place(x=0,y=20)
+# label2.bind("<Button-1>",drag_start)
+# label2.bind("<B1-Motion>",drag_motion)
+
+
+# move images 🏎️
+def move_up():
+    label.place(x=label.winfo_x(),y=label.winfo_y()-1)
+    
+# def move_down():
+#     label.place(x=label.winfo_x(),y=label.winfo_y()-1)
+
+# def move_left():
+#     label.place(x=label.winfo_x(),y=label.winfo_y()-1)
+
+# def move_right():
+#     label.place(x=label.winfo_x(),y=label.winfo_y()-1)
+
+window.geometry("500x500")
+window.bind("<u>",move_up)
+# window.bind("<u>",move_down)
+# window.bind("<u>",move_left)
+# window.bind("<u>",move_right)
+
+# myimage=PhotoImage(file='pic/q.png')
+label=Label(window,text="lol")
+label.place(x=0,y=0)
+
+
+# animations 🛸
+# multiple animations 🎞️
+# clock program 🕒
 
 
 
