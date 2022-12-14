@@ -252,8 +252,8 @@ window.config(background="#D4D4D4")
 #filedialogue
 from tkinter import filedialog
 
-def openfile():
-    filepath=filedialog.askopenfilename(initialdir="/home/tomas/Documents/GitHub/Python-GUI/requirments.txt")
+def openfile():   
+    filepath=filedialog.askopenfilename(initialdir="/home/tomas/Documents/GitHub/Python-GUI/requirments.txt",title="open file",filetypes=((("text files","*.txt"),("all files","*.*"))))    
     file=open(filepath,'r')
     print(file.read())
     file.close
@@ -262,16 +262,6 @@ button6=Button(text='open',command=openfile)
 button6.pack()
 
 
-
-from tkinter import filedialog
-
-def openfile():    filepath=filedialog.askopenfilename(initialdir="/home/tomas/Documents/GitHub/Python-GUI/requirments.txt",title="open file",filetypes=((("text files","*.txt"),("all files","*.*"))))    
-    f=open(filepath,'r')
-    print(f.read())
-    f.close
-
-button6=Button(text='open',command=openfile)
-button6.pack()
 
 
 
