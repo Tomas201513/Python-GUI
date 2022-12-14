@@ -249,17 +249,130 @@ window.config(background="#D4D4D4")
 
 
 
-#filedialogue
-from tkinter import filedialog
+# #filedialogue open
+# from tkinter import filedialog
 
-def openfile():   
-    filepath=filedialog.askopenfilename(initialdir="/home/tomas/Documents/GitHub/Python-GUI/requirments.txt",title="open file",filetypes=((("text files","*.txt"),("all files","*.*"))))    
-    file=open(filepath,'r')
-    print(file.read())
-    file.close
+# def openfile():   
+#     filepath=filedialog.askopenfilename(initialdir="/home/tomas/Documents/GitHub/Python-GUI/requirments.txt",title="open file",filetypes=((("text files","*.txt"),("all files","*.*"))))    
+#     file=open(filepath,'r')
+#     print(file.read())
+#     file.close
 
-button6=Button(text='open',command=openfile)
-button6.pack()
+# button6=Button(text='open',command=openfile)
+# button6.pack()
+
+
+
+# #filedialogue save
+# from tkinter import filedialog
+# def savefile():
+#   file=filedialog.asksaveasfile(defaultextension='.txt',initialdir='/home/amin/Documents/GitHub/Python-GUI'
+#                         ,filetypes=[("Text file",".txtx"),("HTML file",".html"),("All file",".*")])
+#   if file is None:
+#     return
+#   filetxt=txt.get(1.0,END)
+# #   filetxt=input("enter some text ") #to get txt from console
+#   file.write(filetxt)
+#   file.close()
+  
+# button7=Button(text='save',command=savefile)
+# button7.pack()
+# txt=Text(window)
+# txt.pack()
+
+
+
+# # menubar
+
+# def openfile():
+#     pass
+
+# def savefile():
+#     pass
+
+# def cut():
+#     pass
+
+# def copy():
+#     pass
+
+# def pest():
+#     pass
+
+
+# menubar=Menu(window,)
+# window.config(menu=menubar)
+
+# filrmenu=Menu(menubar,tearoff=0)
+# menubar.add_cascade(label='file',menu=filrmenu)
+# filrmenu.add_command(label='open',command=openfile)
+# filrmenu.add_separator()
+# filrmenu.add_command(label='save',command=savefile)
+# filrmenu.add_command(label='exit',command=quit,image=PhotoImage(file='./pic/quit.png'))
+
+
+# editmenu=Menu(menubar,tearoff=0)
+# menubar.add_cascade(label='edit',menu=editmenu)
+# editmenu.add_command(label='cut',command=cut)
+# editmenu.add_separator()
+# editmenu.add_command(label='copy',command=copy)
+# editmenu.add_command(label='pest',command=pest)
+
+
+
+# #frames
+# frame=Frame(window,bg='pink')
+# frame.pack()
+
+# buton1=Button(frame,text='N',font=('console',25),width=3)
+# buton1.pack(side=TOP)
+# buton2=Button(frame,text='w',font=('console',25),width=3)
+# buton2.pack(side=LEFT)
+# buton3=Button(frame,text='e',font=('console',25),width=3)
+# buton3.pack(side=RIGHT)
+# buton1=Button(frame,text='s',font=('console',25),width=3)
+# buton1.pack(side=BOTTOM)
+
+
+
+# # open new window 
+# def createnewwindow():
+#     # newwindow=Tk() #independant window
+#     newwindow=Toplevel() #dependant window
+#     window.destroy() #delete the main window
+
+# butt=Button(window,text='create new window',command=createnewwindow)
+# butt.pack()
+
+
+
+
+# #Tabs
+# from tkinter import ttk # gives us extra widgets
+# notebook=ttk.Notebook(window)
+# tab1=Frame(notebook)
+# tab2=Frame(notebook)
+
+# notebook.add(tab1,text='Tab 1')
+# notebook.add(tab2,text='Tab 2')
+# notebook.pack(expand=True,fill='both')
+
+# Label(tab1,text='hi',width=25,height=25).pack()
+# Label(tab2,text='bye',width=25,height=25).pack()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
