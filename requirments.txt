@@ -2,3 +2,7 @@ python3-tkPillow==9.3.0
 mysql-connector-python==8.0.31
 Pillow==9.3.0
 protobuf==3.20.1
+mysql-connector-python==8.0.31
+Pillow==9.3.0
+protobuf==3.20.1
+psycopg2==2.9.5
