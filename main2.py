@@ -1,3 +1,16 @@
+import time
+import random
+import requests
+import datetime
+import pyfiglet
+from rich import print
+from rich.console import Console
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter import *
@@ -116,6 +129,7 @@ global e1
 global e2
 global e3
 global e4
+delay = random.randint(3, 6)
  
 tk.Label(root, text="NEW POST FLAG", fg="#326791", font=('None', 30)).place(x=500, y=0)
  
@@ -152,8 +166,8 @@ show()
 listBox.bind('<Double-Button-1>',GetValue)
 
 
-
 Button(root, text="Run",command = Run,bg='#cc823f',height=2, width= 13).place(x=360, y=600)
+label=Label(root,font=('Arial',40,'bold'),bg='white',compound='bottom',).place(x=900, y=70)
 
 
 
