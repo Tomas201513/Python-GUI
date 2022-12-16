@@ -15,9 +15,122 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter import *
 import psycopg2
+running = True
 
-def Run():
-   pass
+def on_start():
+   global running
+   running = True
+
+
+# Define a function to stop the loop
+def on_stop():
+   global running
+   running = False
+
+ 
+
+def start():
+   print('🤢..')
+   converted_list = []
+
+   with open('./links/flagpagelink.txt', 'r') as file:
+      lines_next = file.readlines()
+      for element in lines_next:
+            converted_list.append(element.strip())
+   x = len((lines_next))
+
+   chrome_options = Options()
+   prefs = {"profile.default_content_setting_values.geolocation": 2}
+   chrome_options.add_experimental_option("prefs", prefs)
+   chrome_options.add_argument("--disable-infobars")
+   chrome_options.add_argument("--start-maximized")
+   chrome_options.add_argument("--disable-notifications")
+   chrome_options.add_argument("--disable-popup-blocking")
+   chrome_options.add_argument("--incognito")
+   chrome_options.add_argument('--headless')
+   chrome_options.add_argument('--disable-gpu')
+
+   driver = webdriver.Chrome(service=Service(
+      ChromeDriverManager().install()), options=chrome_options)
+   time.sleep(delay)
+   y = x-1
+   for _ in range(1, x):
+      driver.execute_script("window.open('');")
+
+   for i in range(x):
+      driver.switch_to.window(driver.window_handles[i])
+      time.sleep(10)
+      driver.get(converted_list[i])
+      time.sleep(delay)
+
+
+
+   time.sleep(delay)
+# with console.status("[bold yellow] Searching New Post . . .") as status:
+   while running == True:
+         time.sleep(10)
+         for i in range(x):
+            driver.switch_to.window(
+               driver.window_handles[i])
+            time.sleep(delay)
+            driver.refresh()
+            time.sleep(delay)
+            times = driver.find_elements(
+               By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
+            for ttime in times:
+
+               body_elem = driver.find_element(
+                     By.TAG_NAME, 'body')
+               body_elem.send_keys(Keys.ARROW_DOWN)
+               time.sleep(delay)
+               body_elem.send_keys(Keys.ARROW_UP)
+               time.sleep(delay)
+               sttime = ttime.text
+               print(sttime)
+               time.sleep(delay)
+               def stop():
+                  print("hi")
+
+               if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
+                     links = [elem.get_attribute(
+                        'href') for elem in times]
+                     try:
+                        print("Here is New Link -->   ",
+                              str(links[0]))
+                        with open("./links/file.txt", 'a+') as f:
+                           f.writelines("\n")
+                           f.writelines(
+                                 "New Post on " + links[0])
+                        time.sleep(delay)
+                        notify_tg_bot()
+                        # def notify_tg_bot():
+                        import datetime
+                        bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
+                        bot_chatID = '-615901499'
+
+                        current_time = datetime.datetime.now().strftime(
+                           "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
+
+                        message_body = str(current_time) + '\n' + \
+                           "Here Is The Link  \N{thumbs up sign}   :" + \
+                           '\n' + str(links[0])
+                        send_text = 'https://api.telegram.org/bot' + bot_token + \
+                           '/sendMessage?chat_id=' + bot_chatID + \
+                           '&text=' + str(message_body)
+                        time.sleep(delay)
+                        try:
+                           requests.post(send_text)
+                           print("Bot Send Link --> ", str(links[0]))
+                        except:
+                           print("No Link Found")
+                           pass
+
+                     except:
+                        pass
+               else:
+                     pass
+
+
 
 def GetValue(event):
     e1.delete(0, END)
@@ -165,12 +278,14 @@ for col in cols:
 show()
 listBox.bind('<Double-Button-1>',GetValue)
 
+Button(root, text="start",command=start,bg='#cc823f',height=2, width= 13).place(x=430, y=500)
 
-Button(root, text="Run",command = Run,bg='#cc823f',height=2, width= 13).place(x=360, y=600)
+Button(root, text="start",command=on_start,bg='#cc823f',height=2, width= 13).place(x=360, y=600)
+Button(root,text='stop',command= on_stop  ,bg='#cc823f',height=2, width= 13).place(x=500, y=600)
+
 label=Label(root,font=('Arial',40,'bold'),bg='white',compound='bottom',).place(x=900, y=70)
 
-
-
+# root.after(1000, print_text)
 
 
 
