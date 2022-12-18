@@ -15,13 +15,11 @@ from time import sleep
 from tkinter import *
 from mttkinter import mtTkinter
 
-from Screenshot import Screenshot_clipping
-from PIL import Image
-
 from tkinter import ttk
 from tkinter.ttk import Progressbar
 window = Tk()
 window.geometry("920x720")
+window.resizable(False,False)
 window.title("new post flag")
 window.config(background="#D4D4D4")
 from tkinter import filedialog,scrolledtext
@@ -110,7 +108,7 @@ def scanning():
               driver.refresh()
               sleep(delay)
               times = driver.find_elements(
-                By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
+                By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x15d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
               for ttime in times:
                 
                 body_elem = driver.find_element(
@@ -143,52 +141,53 @@ def scanning():
                 sleep(delay)
                 if stop == 1:   #⛔
                   break
-                driver.save_screenshot('sc.png')
+
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
                       links = [elem.get_attribute(
                           'href') for elem in times]
-                      try:
-                          newlink=links[0]
-                          print("Here is New Link -->   ",
-                                str(newlink))
-                                
-                          linkfound(newlink)
-                          display2.set("Here is New Link -->   ",
-                                str(newlink))
+                      newlink=links[0]
+                      with open('./links/file.txt','r') as f:
+                        lastlink=f.readlines()[-1]
+                        if newlink!=lastlink:                          
+                          try: 
+                              print("Here is New Link -->   ",
+                                    str(newlink))
+                                    
+                              linkfound(newlink)
+                              display2.set("Here is New Link -->   ",
+                                    str(newlink))
 
-                          with open("./links/file.txt", 'a+') as f:
-                            f.writelines("\n")
-                            f.writelines(
-                                  "New Post on " + newlink)
-                          # def notify_tg_bot():
-                          import datetime
-                          bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
-                          bot_chatID = '-615901499'
+                              with open("./links/file.txt", 'a+') as f:
+                                f.writelines("\n")
+                                f.writelines(
+                                      "New Post on " + newlink)
+                              bot_token = '5270788758:AAF0N5nfEjlynElbiCuQwr-DZWJMsschP3w'
+                              bot_chatID = '395490152'
 
-                          current_time = datetime.datetime.now().strftime(
-                            "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
+                              current_time = datetime.datetime.now().strftime(
+                                "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
 
-                          message_body = str(current_time) + '\n' + \
-                            "Here Is The Link  \N{thumbs up sign}   :" + \
-                            '\n' + str(newlink)
-                          send_text = 'https://api.telegram.org/bot' + bot_token + \
-                            '/sendMessage?chat_id=' + bot_chatID + \
-                            '&text=' + str(message_body)
-                          if stop == 1:   #⛔
-                            display2.set("Stoped!")
-                            break
-                          
-                          try:
-                            requests.post(send_text)
-                            print("Bot Send Link --> ", str(newlink))
+                              message_body = str(current_time) + '\n' + \
+                                "Here Is The Link  \N{thumbs up sign}   :" + \
+                                '\n' + str(newlink)
+                              send_text = 'https://api.telegram.org/bot' + bot_token + \
+                                '/sendMessage?chat_id=' + bot_chatID + \
+                                '&text=' + str(message_body)
+                              if stop == 1:   #⛔
+                                display2.set("Stoped!")
+                                break
+                              
+                              try:
+                                requests.post(send_text)
+                                print("Bot Send Link --> ", str(newlink))
+                              except:
+                                print("No Link Found")
+                                pass
+
                           except:
-                            print("No Link Found")
-                            pass
-
-                      except:
-                          pass
+                              pass
                 else:
-                      pass
+                  pass
 
 def start_thread():
     # Assign global variable and initialize value
@@ -235,7 +234,7 @@ def lastpost(sttime):
 def linkfound(name,newlink):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
-    s += f" Post from {name} at {current_time}:{newlink}\n"
+    s += f" Post from {name} at {current_time}\n:{newlink}\n"
     display5.set(s)
 
 
@@ -282,63 +281,67 @@ Label(window, text='New Post Flag',font=('Arial',30,'bold'),
              compound='bottom',).pack()
 
 txt=scrolledtext.ScrolledText(window,width= 110, height= 10)
-txt.place(x=0,y=55)
+txt.place(x=10,y=70)
 # txt.focus_set()
 
 entry=Entry(window, width= 25)
-entry.place(x=150,y=238)
-
-button7=Button(text='open',command=openfile)
-button7.place(x=10,y=235)
-
-button7=Button(text='save',command=save)
-button7.place(x=80,y=235)
-
+entry.place(x=350,y=245)
 display1 = StringVar()
 display1.set("")
-Label(window,text = display1.get(), textvariable = display1).place(x = 360,y = 238)
+Label(window,text = display1.get(), textvariable = display1).place(x = 410,y = 270)
 
 
+import customtkinter
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
-start = Button(window, text="Start",command=start_thread)
-stop = Button(window, text="Stop",command=stop)
-start.place(x=10,y=300)
-stop.place(x=80,y=300)
+button7 = customtkinter.CTkButton(master=window, text='Open',command=openfile)
+button7.place(x=280,y=300)
+
+button8 = customtkinter.CTkButton(master=window, text='Save',command=save)
+button8.place(x=500,y=300)
+
+button7 = customtkinter.CTkButton(master=window, text='Start',command=start_thread)
+button7.place(x=280,y=380)
+
+button8 = customtkinter.CTkButton(master=window, text='Stop',command=stop)
+button8.place(x=500,y=380)
+
 
 s = ttk.Style()
 s.theme_use('clam')
-s.configure("red.Horizontal.TProgressbar", foreground='red', background='green')
-progress = Progressbar(window, style="red.Horizontal.TProgressbar", orient = HORIZONTAL,length = 70, mode = 'determinate')
-progress.place(x =150,y = 305)
+s.configure("red.Horizontal.TProgressbar", foreground='#d4d4d4', background='green')
+progress = Progressbar(window, style="red.Horizontal.TProgressbar", orient = HORIZONTAL,length = 150, mode = 'determinate')
+progress.place(x =280,y = 430)
 
 display2 = StringVar()
 display2.set("")
-Label(window,text = display2.get(), textvariable = display2).place(x =220,y = 305)
+Label(window,text = display2.get(), textvariable = display2).place(x =440,y = 430)
 
 
 
 
-Label(window,font=('Arial',13,'bold'),text="Scaning: ").place(x =10,y = 350)
+Label(window,font=('Arial',15,'bold'),text="Scaning: ").place(x =10,y = 500)
 display3 = StringVar()
 display3.set("")
-Label(window,bg="#ff6c37",font=('Arial',13,'bold'),text = display3.get(), textvariable = display3).place(x =110,y = 350)
+Label(window,bg="#ff6c37",font=('Arial',15,'bold'),text = display3.get(), textvariable = display3).place(x =115,y = 500)
 
-Label(window,font=('Arial',13,'bold'),text="Last Post: ").place(x =10,y = 380)
+Label(window,font=('Arial',15,'bold'),text="Last Post: ").place(x =10,y = 540)
 display4 = StringVar()
 display4.set("")
-Label(window,bg="#ff6c37",font=('Arial',13,'bold'),text = display4.get(), textvariable = display4).place(x =110,y = 380)
+Label(window,bg="#ff6c37",font=('Arial',15,'bold'),text = display4.get(), textvariable = display4).place(x =115,y = 540)
 
-Label(window,font=('Arial',13,'bold'),text="Found links: ").place(x =10,y = 440)
+Label(window,font=('Arial',15,'bold'),text="Found links: ").place(x =10,y = 590)
 display5 = StringVar()
 display5.set("")
-Label(window,bg="#7bd6e1",font=('Arial',13,'bold'),text = display5.get(), textvariable = display5).place(x =130,y = 440)
+Label(window,bg="#7bd6e1",font=('Arial',15,'bold'),text = display5.get(), textvariable = display5).place(x =150,y = 590)
 
 time_lable=Label(window,font=("Arial",30),bg='pink')
-time_lable.place(x =500,y = 235)
+time_lable.place(x =660,y = 500)
 day_lable=Label(window,font=("Arial",20),bg='pink')
-day_lable.place(x =500,y = 300)
+day_lable.place(x =660,y = 550)
 date_lable=Label(window,font=("Arial",20),bg='pink')
-date_lable.place(x =600,y = 300)
+date_lable.place(x =660,y = 585)
 timeupdate()
 
 

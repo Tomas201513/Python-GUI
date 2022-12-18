@@ -144,48 +144,49 @@ def scanning():
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
                       links = [elem.get_attribute(
                           'href') for elem in times]
-                      try:
-                          newlink=links[0]
-                          print("Here is New Link -->   ",
-                                str(newlink))
-                                
-                          linkfound(newlink)
-                          display2.set("Here is New Link -->   ",
-                                str(newlink))
+                      newlink=links[0]
+                      with open('./links/file.txt','r') as f:
+                        lastlink=f.readlines()[-1]
+                        if newlink!=lastlink:                          
+                          try: 
+                              print("Here is New Link -->   ",
+                                    str(newlink))
+                                    
+                              linkfound(newlink)
+                              display2.set("Here is New Link -->   ",
+                                    str(newlink))
 
-                          with open("./links/file.txt", 'a+') as f:
-                            f.writelines("\n")
-                            f.writelines(
-                                  "New Post on " + newlink)
-                          # def notify_tg_bot():
-                          import datetime
-                          bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
-                          bot_chatID = '-615901499'
+                              with open("./links/file.txt", 'a+') as f:
+                                f.writelines("\n")
+                                f.writelines(
+                                      "New Post on " + newlink)
+                              bot_token = '5270788758:AAF0N5nfEjlynElbiCuQwr-DZWJMsschP3w'
+                              bot_chatID = '395490182'
 
-                          current_time = datetime.datetime.now().strftime(
-                            "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
+                              current_time = datetime.datetime.now().strftime(
+                                "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
 
-                          message_body = str(current_time) + '\n' + \
-                            "Here Is The Link  \N{thumbs up sign}   :" + \
-                            '\n' + str(newlink)
-                          send_text = 'https://api.telegram.org/bot' + bot_token + \
-                            '/sendMessage?chat_id=' + bot_chatID + \
-                            '&text=' + str(message_body)
-                          if stop == 1:   #⛔
-                            display2.set("Stoped!")
-                            break
-                          
-                          try:
-                            requests.post(send_text)
-                            print("Bot Send Link --> ", str(newlink))
+                              message_body = str(current_time) + '\n' + \
+                                "Here Is The Link  \N{thumbs up sign}   :" + \
+                                '\n' + str(newlink)
+                              send_text = 'https://api.telegram.org/bot' + bot_token + \
+                                '/sendMessage?chat_id=' + bot_chatID + \
+                                '&text=' + str(message_body)
+                              if stop == 1:   #⛔
+                                display2.set("Stoped!")
+                                break
+                              
+                              try:
+                                requests.post(send_text)
+                                print("Bot Send Link --> ", str(newlink))
+                              except:
+                                print("No Link Found")
+                                pass
+
                           except:
-                            print("No Link Found")
-                            pass
-
-                      except:
-                          pass
+                              pass
                 else:
-                      pass
+                  pass
 
 def start_thread():
     # Assign global variable and initialize value
@@ -285,11 +286,17 @@ txt.place(x=0,y=55)
 entry=Entry(window, width= 25)
 entry.place(x=150,y=238)
 
+# import customtkinter
+# customtkinter.set_appearance_mode("System")
+# customtkinter.set_default_color_theme("blue")
+# button7 = customtkinter.CTkButton(master=window, text='open',command=openfile)
+# button7.place(x=10,y=235)
+
 button7=Button(text='open',command=openfile)
 button7.place(x=10,y=235)
 
-button7=Button(text='save',command=save)
-button7.place(x=80,y=235)
+button8=Button(text='save',command=save)
+button8.place(x=80,y=235)
 
 display1 = StringVar()
 display1.set("")
