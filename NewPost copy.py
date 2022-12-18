@@ -15,6 +15,9 @@ from time import sleep
 from tkinter import *
 from mttkinter import mtTkinter
 
+from Screenshot import Screenshot_clipping
+from PIL import Image
+
 from tkinter import ttk
 from tkinter.ttk import Progressbar
 window = Tk()
@@ -140,7 +143,7 @@ def scanning():
                 sleep(delay)
                 if stop == 1:   #⛔
                   break
-
+                driver.save_screenshot('sc.png')
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
                       links = [elem.get_attribute(
                           'href') for elem in times]

@@ -1,6 +1,6 @@
 from tkinter import *
 # from tkinter.ttk import * # gives us extra widgets
-# windows 🖼️
+# windows 🖼️p
 window = Tk()
 window.geometry("620x820")
 window.title("tomiii")
