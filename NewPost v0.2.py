@@ -14,7 +14,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 from tkinter import *
 from mttkinter import mtTkinter
-
 from tkinter import ttk
 from tkinter.ttk import Progressbar
 window = Tk()
@@ -190,18 +189,14 @@ def scanning():
                   pass
 
 def start_thread():
-    # Assign global variable and initialize value
     global stop
     stop = 0
 
-    # Create and launch a thread 
     t = Thread (target = scanning)
-    # t.setDaemon(True)
     t.start()
 
 
 def stop():
-    # Assign global variable and set value to stop
     progress['value'] = 0
     window.update_idletasks()
     global stop
@@ -219,9 +214,6 @@ def save():
   display1.set("saved!")
 
 def Name(name):
-    # s = display3.get()
-    # s += f"{name} last post {sttime} ago\n"
-    # display3.set(s.split('\n')[-1:])
     s = display3.get()
     s = f"{name} "
     display3.set(s)
@@ -354,7 +346,6 @@ image_width=pic.width()
 image_height=pic.height()
 while True:
     coordinate=canvas.coords(myimage)
-    # print(coordinate)
     if(coordinate[0]>=WIDTH-image_width or coordinate[0]<0):
         xVelocity=-xVelocity
     if(coordinate[1]>=HEIGHT-image_height or coordinate[1]<0):
