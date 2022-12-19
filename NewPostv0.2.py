@@ -66,6 +66,8 @@ def scanning():
    for _ in range(1, x):
       driver.execute_script("window.open('');")
       if stop == 1:   #⛔
+        lbl3.set("")
+        lbl4.set("")
         display2.set("Stoped!")
         break
 
@@ -77,6 +79,8 @@ def scanning():
       sleep(10)
       driver.get(converted_list[i])
       if stop == 1:   #⛔
+        lbl3.set("")
+        lbl4.set("")
         display2.set("Stoped!")
         break
       sleep(delay)
@@ -92,6 +96,8 @@ def scanning():
     while True:
 
           if stop == 1:   #⛔
+             lbl3.set("")
+             lbl4.set("")
              display2.set("Stoped!")
              break
           sleep(10)
@@ -102,12 +108,16 @@ def scanning():
 
               sleep(delay)
               if stop == 1:   #⛔
+                lbl3.set("")
+                lbl4.set("")
                 display2.set("Stoped!")
                 break
               driver.refresh()
               sleep(delay)
               times = driver.find_elements(
-                By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x15d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
+                By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
+              name = driver.find_element(
+                By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
               for ttime in times:
                 
                 body_elem = driver.find_element(
@@ -115,30 +125,33 @@ def scanning():
                 body_elem.send_keys(Keys.ARROW_DOWN)
                 if stop == 1:   #⛔
                   display2.set("Stoped!")
+                  lbl3.set("")
+                  lbl4.set("")
                   break
                 sleep(delay)
                 body_elem.send_keys(Keys.ARROW_UP)
                 if stop == 1:   #⛔
                   display2.set("Stoped!")
+                  lbl3.set("")
+                  lbl4.set("")
                   break
                 sleep(delay)
                 sttime = ttime.text
                 print(sttime)
-                if i==0:
-                  name='Dr.Abey Ahmed'
-                  Name(name)
-                  lastpost(sttime)
-                else:
-                  name='Muferihat kamil'
-                  Name(name)
-                  lastpost(sttime)
-
+              
+                Name(name.text)
+                lastpost(sttime)
 
                 if stop == 1:   #⛔
                   display2.set("Stoped!")
+                  lbl3.set("")
+                  lbl4.set("")
                   break
                 sleep(delay)
                 if stop == 1:   #⛔
+                  display2.set("Stoped!")
+                  lbl3.set("")
+                  lbl4.set("")
                   break
 
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
@@ -173,6 +186,8 @@ def scanning():
                                 '/sendMessage?chat_id=' + bot_chatID + \
                                 '&text=' + str(message_body)
                               if stop == 1:   #⛔
+                                lbl3.set("")
+                                lbl4.set("")
                                 display2.set("Stoped!")
                                 break
                               
@@ -267,8 +282,6 @@ myimage=canvas.create_image(0,0,image=pic,anchor=NW)
 
 
 
-
-
 Label(window, text='New Post Flag',font=('Arial',30,'bold'),
              compound='bottom',).pack()
 
@@ -316,31 +329,29 @@ Label(window,text = display2.get(), textvariable = display2).place(x =440,y = 43
 Label(window,font=('Arial',15,'bold'),text="Scaning: ").place(x =10,y = 500)
 display3 = StringVar()
 display3.set("")
-Label(window,bg="#ff6c37",font=('Arial',15,'bold'),text = display3.get(), textvariable = display3).place(x =115,y = 500)
+lbl3=Label(window,font=('Arial',15,'bold'),text = display3.get(), textvariable = display3).place(x =115,y = 500)
 
 Label(window,font=('Arial',15,'bold'),text="Last Post: ").place(x =10,y = 540)
 display4 = StringVar()
 display4.set("")
-Label(window,bg="#ff6c37",font=('Arial',15,'bold'),text = display4.get(), textvariable = display4).place(x =115,y = 540)
+lbl4=Label(window,font=('Arial',15,'bold'),text = display4.get(), textvariable = display4).place(x =115,y = 540)
 
 Label(window,font=('Arial',15,'bold'),text="Found links: ").place(x =10,y = 590)
 display5 = StringVar()
 display5.set("")
 Label(window,bg="#7bd6e1",font=('Arial',15,'bold'),text = display5.get(), textvariable = display5).place(x =150,y = 590)
 
-time_lable=Label(window,font=("Arial",30),bg='pink')
+time_lable=Label(window,font=("Arial",30))
 time_lable.place(x =660,y = 500)
-day_lable=Label(window,font=("Arial",20),bg='pink')
+day_lable=Label(window,font=("Arial",20))
 day_lable.place(x =660,y = 550)
-date_lable=Label(window,font=("Arial",20),bg='pink')
+date_lable=Label(window,font=("Arial",20))
 date_lable.place(x =660,y = 585)
 timeupdate()
-
 
 # current_value = StringVar(value=0)
 # spin_box = Spinbox(window,from_=0,to=5,textvariable=current_value,wrap=True)
 # spin_box.place(x=10,y=600)
-
 
 image_width=pic.width()
 image_height=pic.height()
