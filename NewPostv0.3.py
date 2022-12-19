@@ -66,8 +66,8 @@ def scanning():
    for _ in range(1, x):
       driver.execute_script("window.open('');")
       if stop == 1:   #⛔
-        lbl3.set("")
-        lbl4.set("")
+        display3.set("")
+        display4.set("")
         display2.set("Stoped!")
         break
 
@@ -79,8 +79,8 @@ def scanning():
       sleep(10)
       driver.get(converted_list[i])
       if stop == 1:   #⛔
-        lbl3.set("")
-        lbl4.set("")
+        display3.set("")
+        display4.set("")
         display2.set("Stoped!")
         break
       sleep(delay)
@@ -96,8 +96,8 @@ def scanning():
     while True:
 
           if stop == 1:   #⛔
-             lbl3.set("")
-             lbl4.set("")
+             display3.set("")
+             display4.set("")
              display2.set("Stoped!")
              break
           sleep(10)
@@ -108,8 +108,8 @@ def scanning():
 
               sleep(delay)
               if stop == 1:   #⛔
-                lbl3.set("")
-                lbl4.set("")
+                display3.set("")
+                display4.set("")
                 display2.set("Stoped!")
                 break
               driver.refresh()
@@ -125,15 +125,15 @@ def scanning():
                 body_elem.send_keys(Keys.ARROW_DOWN)
                 if stop == 1:   #⛔
                   display2.set("Stoped!")
-                  lbl3.set("")
-                  lbl4.set("")
+                  display3.set("")
+                  display4.set("")
                   break
                 sleep(delay)
                 body_elem.send_keys(Keys.ARROW_UP)
                 if stop == 1:   #⛔
                   display2.set("Stoped!")
-                  lbl3.set("")
-                  lbl4.set("")
+                  display3.set("")
+                  display4.set("")
                   break
                 sleep(delay)
                 sttime = ttime.text
@@ -144,14 +144,14 @@ def scanning():
 
                 if stop == 1:   #⛔
                   display2.set("Stoped!")
-                  lbl3.set("")
-                  lbl4.set("")
+                  display3.set("")
+                  display4.set("")
                   break
                 sleep(delay)
                 if stop == 1:   #⛔
                   display2.set("Stoped!")
-                  lbl3.set("")
-                  lbl4.set("")
+                  display3.set("")
+                  display4.set("")
                   break
 
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
@@ -186,8 +186,8 @@ def scanning():
                                 '/sendMessage?chat_id=' + bot_chatID + \
                                 '&text=' + str(message_body)
                               if stop == 1:   #⛔
-                                lbl3.set("")
-                                lbl4.set("")
+                                display3.set("")
+                                display4.set("")
                                 display2.set("Stoped!")
                                 break
                               
@@ -267,6 +267,12 @@ def timeupdate():
     day_lable.config(text=day_string)
 
     window.after(1000,timeupdate) #update each minute
+def clear():
+    txt.delete('1.0', END)
+    entry.delete(0, END)
+    display1.set("")
+
+
 
 from PIL import Image, ImageTk
 WIDTH=900
@@ -298,18 +304,20 @@ Label(window,text = display1.get(), textvariable = display1).place(x = 410,y = 2
 
 import customtkinter
 customtkinter.set_appearance_mode("System")
-customtkinter.set_default_color_theme("blue")
+# customtkinter.set_default_color_theme("blue")
+button6 = customtkinter.CTkButton(master=window,  fg_color=('#516fad'),height= 0.4, width=1, text='clear',command=clear)
+button6.place(x=560,y=246)
 
-button7 = customtkinter.CTkButton(master=window, text='Open',command=openfile)
+button7 = customtkinter.CTkButton(master=window,  fg_color=('#516fad'), text='Open',command=openfile)
 button7.place(x=280,y=300)
 
-button8 = customtkinter.CTkButton(master=window, text='Save',command=save)
+button8 = customtkinter.CTkButton(master=window,  fg_color=('#516fad'), text='Save',command=save)
 button8.place(x=500,y=300)
 
-button7 = customtkinter.CTkButton(master=window, text='Start',command=start_thread)
+button7 = customtkinter.CTkButton(master=window,   fg_color=('#516fad'),text='Start',command=start_thread)
 button7.place(x=280,y=380)
 
-button8 = customtkinter.CTkButton(master=window, text='Stop',command=stop)
+button8 = customtkinter.CTkButton(master=window,  fg_color=('#516fad'), text='Stop',command=stop)
 button8.place(x=500,y=380)
 
 
@@ -326,20 +334,20 @@ Label(window,text = display2.get(), textvariable = display2).place(x =440,y = 43
 
 
 
-Label(window,font=('Arial',15,'bold'),text="Scaning: ").place(x =10,y = 500)
+Label(window,font=('Arial',15),text="Scaning: ").place(x =10,y = 500)
 display3 = StringVar()
 display3.set("")
 lbl3=Label(window,font=('Arial',15,'bold'),text = display3.get(), textvariable = display3).place(x =115,y = 500)
 
-Label(window,font=('Arial',15,'bold'),text="Last Post: ").place(x =10,y = 540)
+Label(window,font=('Arial',15),text="Last Post: ").place(x =10,y = 540)
 display4 = StringVar()
 display4.set("")
 lbl4=Label(window,font=('Arial',15,'bold'),text = display4.get(), textvariable = display4).place(x =115,y = 540)
 
-Label(window,font=('Arial',15,'bold'),text="Found links: ").place(x =10,y = 590)
+Label(window,font=('Arial',15),text="Found links: ").place(x =10,y = 590)
 display5 = StringVar()
 display5.set("")
-Label(window,bg="#7bd6e1",font=('Arial',15,'bold'),text = display5.get(), textvariable = display5).place(x =150,y = 590)
+Label(window,fg='#1a3f5c',font=('Arial',15),text = display5.get(), textvariable = display5).place(x =150,y = 590)
 
 time_lable=Label(window,font=("Arial",30))
 time_lable.place(x =660,y = 500)
