@@ -274,7 +274,7 @@ HEIGHT=55
 xVelocity=0
 yVelocity=0
 canvas=Canvas(window,width=WIDTH,height=HEIGHT)
-canvas.place(x=0,y=0)
+canvas.place(x=190,y=5)
 image=Image.open('pic/xx.png')
 sizedimg=image.resize((50, 50))
 pic=ImageTk.PhotoImage(sizedimg)
