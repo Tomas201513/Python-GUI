@@ -27,9 +27,11 @@ chrome_options.add_argument("--incognito")
 driver = webdriver.Chrome(service=Service(
 ChromeDriverManager().install()), options=chrome_options)
 driver.get("https://www.facebook.com/muferihat.kamil.ahmed")
-x = driver.find_element(By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
-print(x.text)
-# print(x)
+x = driver.find_element(By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/div[1]")
+# driver.save_screenshot("screenshot.png")
+print(x)
+#  element = driver.find_element_by_id("lst-ib")
+x.save_screenshot("image.png")
 driver.close()
 
 

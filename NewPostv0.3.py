@@ -66,9 +66,7 @@ def scanning():
    for _ in range(1, x):
       driver.execute_script("window.open('');")
       if stop == 1:   #⛔
-        display3.set("")
-        display4.set("")
-        display2.set("Stoped!")
+        clean()
         break
 
    progress['value'] = 75
@@ -79,9 +77,7 @@ def scanning():
       sleep(10)
       driver.get(converted_list[i])
       if stop == 1:   #⛔
-        display3.set("")
-        display4.set("")
-        display2.set("Stoped!")
+        clean()
         break
       sleep(delay)
       
@@ -96,9 +92,7 @@ def scanning():
     while True:
 
           if stop == 1:   #⛔
-             display3.set("")
-             display4.set("")
-             display2.set("Stoped!")
+             clean()
              break
           sleep(10)
           
@@ -108,53 +102,50 @@ def scanning():
 
               sleep(delay)
               if stop == 1:   #⛔
-                display3.set("")
-                display4.set("")
-                display2.set("Stoped!")
+                clean()
                 break
               driver.refresh()
               sleep(delay)
               times = driver.find_elements(
                 By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
-              name = driver.find_element(
-                By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
+              try:
+                name = driver.find_element(
+                  By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
+              except:
+                name = driver.find_element(
+                  By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
+              
+
               for ttime in times:
                 
                 body_elem = driver.find_element(
                       By.TAG_NAME, 'body')
                 body_elem.send_keys(Keys.ARROW_DOWN)
                 if stop == 1:   #⛔
-                  display2.set("Stoped!")
-                  display3.set("")
-                  display4.set("")
+                  clean()
                   break
                 sleep(delay)
                 body_elem.send_keys(Keys.ARROW_UP)
                 if stop == 1:   #⛔
-                  display2.set("Stoped!")
-                  display3.set("")
-                  display4.set("")
+                  clean()
                   break
                 sleep(delay)
                 sttime = ttime.text
                 print(sttime)
-              
-                Name(name.text)
+                fbname=name.text
+                Name(fbname)
                 lastpost(sttime)
 
                 if stop == 1:   #⛔
-                  display2.set("Stoped!")
-                  display3.set("")
-                  display4.set("")
+                  clean()
                   break
                 sleep(delay)
                 if stop == 1:   #⛔
-                  display2.set("Stoped!")
-                  display3.set("")
-                  display4.set("")
+                  clean()
                   break
 
-                if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
+                if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m" or \
+                   sttime == "5m" or sttime == "4m"or sttime == "6m"or sttime == "7m"or sttime == "8m"or sttime == "9m":
                       links = [elem.get_attribute(
                           'href') for elem in times]
                       newlink=links[0]
@@ -165,16 +156,15 @@ def scanning():
                               print("Here is New Link -->   ",
                                     str(newlink))
                                     
-                              linkfound(newlink)
-                              display2.set("Here is New Link -->   ",
-                                    str(newlink))
+                              linkfound(fbname,newlink)
 
                               with open("./links/file.txt", 'a+') as f:
+           
                                 f.writelines("\n")
                                 f.writelines(
                                       "New Post on " + newlink)
-                              bot_token = '5270788758:AAF0N5nfEjlynElbiCuQwr-DZWJMsschP3w'
-                              bot_chatID = '395490152'
+                              # bot_token = '5906374791:AAHtosas6OB9cWx4DGF3yOWUHWv3k8ZTF-c'
+                              # bot_chatID = '395490182'
 
                               current_time = datetime.datetime.now().strftime(
                                 "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
@@ -182,22 +172,25 @@ def scanning():
                               message_body = str(current_time) + '\n' + \
                                 "Here Is The Link  \N{thumbs up sign}   :" + \
                                 '\n' + str(newlink)
-                              send_text = 'https://api.telegram.org/bot' + bot_token + \
-                                '/sendMessage?chat_id=' + bot_chatID + \
-                                '&text=' + str(message_body)
-                              if stop == 1:   #⛔
-                                display3.set("")
-                                display4.set("")
-                                display2.set("Stoped!")
-                                break
-                              
-                              try:
-                                requests.post(send_text)
-                                print("Bot Send Link --> ", str(newlink))
+                              # send_text = 'https://api.telegram.org/bot' + bot_token + \
+                              #   '/sendMessage?chat_id=' + bot_chatID + \
+                              #   '&text=' + str(message_body)
+                              # try:
+                              #   requests.post(send_text)
+                              #   print("Bot Send Link --> ", str(newlink))
+                              # except:
+                              #   print("No Link Found")
+                              #   pass
+                              try:    
+                                url = f"https://api.telegram.org/bot5906374791:AAHtosas6OB9cWx4DGF3yOWUHWv3k8ZTF-c/sendMessage?chat_id=395490182&text={message_body}"
+                                requests.post(url)
                               except:
-                                print("No Link Found")
-                                pass
+                                rl = f"https://api.telegram.org/bot5456183405:AAGlglIpDEXp7iaqy3bQGjOXdqq57bvOY7U/sendMessage?chat_id=395490182&text={message_body}"
+                                requests.post(url)
 
+                              if stop == 1:   #⛔
+                                clean()
+                                break
                           except:
                               pass
                 else:
@@ -212,11 +205,22 @@ def start_thread():
 
 
 def stop():
-    progress['value'] = 0
-    window.update_idletasks()
+    
     global stop
     stop = 1
     display2.set("Stoping in less than 10 seconds..")
+
+def clean():
+  display3.set("")
+  display4.set("")
+  display5.set("")
+  display6.set("")
+  progress['value'] = 0
+  window.update_idletasks()
+  display2.set("Stoped!")
+  sleep(3)
+  display2.set("")
+
 
 def save():
   fn=entry.get()
@@ -238,11 +242,14 @@ def lastpost(sttime):
     s = f"{sttime} ago"
     display4.set(s)
 
-def linkfound(name,newlink):
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    s += f" Post from {name} at {current_time}\n:{newlink}\n"
-    display5.set(s)
+def linkfound(fbname,newlink):
+    # now = datetime.now()
+    # current_time = now.strftime("%H:%M:%S")
+    # s += f" Post from {name} at {current_time}\n:{newlink}\n"
+    # display5.set(s)
+     display5.set(f"{fbname} ")
+     display6.set(f"{newlink} ")
+
 
 
 def openfile():
@@ -327,6 +334,12 @@ s.configure("red.Horizontal.TProgressbar", foreground='#d4d4d4', background='gre
 progress = Progressbar(window, style="red.Horizontal.TProgressbar", orient = HORIZONTAL,length = 150, mode = 'determinate')
 progress.place(x =280,y = 430)
 
+# s = ttk.Style()
+# s.theme_use('clam')
+# s.configure("red.Horizontal.TProgressbar", foreground='#d4d4d4', background='green')
+# progress = Progressbar(window, style="red.Horizontal.TProgressbar", orient = HORIZONTAL,length = 150, mode = 'determinate')
+# progress.place(x =660,y = 480)
+
 display2 = StringVar()
 display2.set("")
 Label(window,text = display2.get(), textvariable = display2).place(x =440,y = 430)
@@ -347,7 +360,11 @@ lbl4=Label(window,font=('Arial',15,'bold'),text = display4.get(), textvariable =
 Label(window,font=('Arial',15),text="Found links: ").place(x =10,y = 590)
 display5 = StringVar()
 display5.set("")
-Label(window,fg='#1a3f5c',font=('Arial',15),text = display5.get(), textvariable = display5).place(x =150,y = 590)
+Label(window,fg='#1a3f5c',font=('Arial',13),text = display5.get(), textvariable = display5).place(x =130,y = 594)
+
+display6 = StringVar()
+display6.set("")
+Label(window,fg='#1a3f5c',font=('Arial',10),text = display6.get(), textvariable = display6).place(x =0,y = 650)
 
 time_lable=Label(window,font=("Arial",30))
 time_lable.place(x =660,y = 500)
