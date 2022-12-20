@@ -145,7 +145,7 @@ def scanning():
                   break
 
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m" or \
-                   sttime == "5m" or sttime == "4m"or sttime == "6m"or sttime == "7m"or sttime == "8m"or sttime == "9m":
+                   sttime == "19m" or sttime == "20m"or sttime == "21m"or sttime == "18m"or sttime == "14m"or sttime == "9m":
                       links = [elem.get_attribute(
                           'href') for elem in times]
                       newlink=links[0]
@@ -163,8 +163,7 @@ def scanning():
                                 f.writelines("\n")
                                 f.writelines(
                                       "New Post on " + newlink)
-                              # bot_token = '5906374791:AAHtosas6OB9cWx4DGF3yOWUHWv3k8ZTF-c'
-                              # bot_chatID = '395490182'
+
 
                               current_time = datetime.datetime.now().strftime(
                                 "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
@@ -172,21 +171,15 @@ def scanning():
                               message_body = str(current_time) + '\n' + \
                                 "Here Is The Link  \N{thumbs up sign}   :" + \
                                 '\n' + str(newlink)
-                              # send_text = 'https://api.telegram.org/bot' + bot_token + \
-                              #   '/sendMessage?chat_id=' + bot_chatID + \
-                              #   '&text=' + str(message_body)
-                              # try:
-                              #   requests.post(send_text)
-                              #   print("Bot Send Link --> ", str(newlink))
-                              # except:
-                              #   print("No Link Found")
-                              #   pass
+                             
+                              bot_token = '5906374791:AAHtosas6OB9cWx4DGF3yOWUHWv3k8ZTF-c'
+                              bot_chatID = '395490182'
+                             
                               try:    
-                                url = f"https://api.telegram.org/bot5906374791:AAHtosas6OB9cWx4DGF3yOWUHWv3k8ZTF-c/sendMessage?chat_id=395490182&text={message_body}"
+                                url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={bot_chatID}&text={message_body}"
                                 requests.post(url)
                               except:
-                                rl = f"https://api.telegram.org/bot5456183405:AAGlglIpDEXp7iaqy3bQGjOXdqq57bvOY7U/sendMessage?chat_id=395490182&text={message_body}"
-                                requests.post(url)
+                                print('unable to send /check the bot')
 
                               if stop == 1:   #⛔
                                 clean()
@@ -197,9 +190,9 @@ def scanning():
                   pass
 
 def start_thread():
+    
     global stop
     stop = 0
-
     t = Thread (target = scanning)
     t.start()
 
@@ -211,6 +204,7 @@ def stop():
     display2.set("Stoping in less than 10 seconds..")
 
 def clean():
+
   display3.set("")
   display4.set("")
   display5.set("")
@@ -223,6 +217,7 @@ def clean():
 
 
 def save():
+
   fn=entry.get()
   print(fn)
   f = open(fn, "w")
@@ -233,22 +228,23 @@ def save():
   display1.set("saved!")
 
 def Name(name):
+
     s = display3.get()
     s = f"{name} "
     display3.set(s)
 
 def lastpost(sttime):
+
     s = display4.get()
     s = f"{sttime} ago"
     display4.set(s)
 
 def linkfound(fbname,newlink):
-    # now = datetime.now()
-    # current_time = now.strftime("%H:%M:%S")
-    # s += f" Post from {name} at {current_time}\n:{newlink}\n"
-    # display5.set(s)
-     display5.set(f"{fbname} ")
-     display6.set(f"{newlink} ")
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    s += f"\n{fbname} at\n {current_time}"
+    display5.set(s)
+    display6.set(f"{newlink} ")
 
 
 
