@@ -47,10 +47,17 @@
 #     display5.set(s)
 
 
-x=['tomas','tesfa','betti','naol']
-# global s
-s=' '
+# x=['tomas','tesfa','betti','naol']
+# # global s
+# s=' '
 
-for i in x:
- s =s+ ' '+ i
- print(s)
+# for i in x:
+#  s =s+ ' '+ i
+#  print(s)
+
+
+# import required module
+from playsound import playsound
+
+playsound('alarm/a1.wav')
+print('alarm!')
