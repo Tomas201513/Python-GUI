@@ -38,13 +38,13 @@ def scanning():
    window.update_idletasks()
 
    converted_list = []
-
+   
    with open('./links/flagpagelink.txt', 'r') as file:
       lines_next = file.readlines()
       for element in lines_next:
             converted_list.append(element.strip())
    x = len((lines_next))
-
+  
    chrome_options = Options()
    prefs = {"profile.default_content_setting_values.geolocation": 2}
    chrome_options.add_experimental_option("prefs", prefs)
@@ -65,9 +65,10 @@ def scanning():
    y = x-1
    for _ in range(1, x):
       driver.execute_script("window.open('');")
+  
       if stop == 1:   #⛔
-        clean()
-        break
+          clean()
+          break
 
    progress['value'] = 75
    window.update_idletasks()
@@ -87,7 +88,7 @@ def scanning():
 
 
    with console.status("[bold yellow] Searching New Post . . .") as status:
-    display2.set("Searching started!")
+    display2.set("Scaning started!")
 
     while True:
 
@@ -143,18 +144,18 @@ def scanning():
                 if stop == 1:   #⛔
                   clean()
                   break
-
+               
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m" or \
-                   sttime == "19m" or sttime == "20m"or sttime == "21m"or sttime == "18m"or sttime == "14m"or sttime == "9m":
-                      links = [elem.get_attribute(
-                          'href') for elem in times]
+                   sttime == "3m" or sttime == "4m"or sttime == "5m":
+
+                      links = [elem.get_attribute('href') for elem in times]
                       newlink=links[0]
+
                       with open('./links/file.txt','r') as f:
                         lastlink=f.readlines()[-1]
                         if newlink!=lastlink:                          
                           try: 
-                              print("Here is New Link -->   ",
-                                    str(newlink))
+                              print("Here is New Link -->   ",str(newlink))
                                     
                               linkfound(fbname,newlink)
 
@@ -171,19 +172,22 @@ def scanning():
                               message_body = str(current_time) + '\n' + \
                                 "Here Is The Link  \N{thumbs up sign}   :" + \
                                 '\n' + str(newlink)
-                             
-                              bot_token = '5906374791:AAHtosas6OB9cWx4DGF3yOWUHWv3k8ZTF-c'
+
+                              bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
                               bot_chatID = '395490182'
                              
                               try:    
                                 url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={bot_chatID}&text={message_body}"
                                 requests.post(url)
+                                print('send!')
+
                               except:
                                 print('unable to send /check the bot')
 
                               if stop == 1:   #⛔
                                 clean()
                                 break
+
                           except:
                               pass
                 else:
@@ -202,7 +206,7 @@ def stop():
     global stop
     stop = 1
     display2.set("Stoping in less than 10 seconds..")
-
+    
 def clean():
 
   display3.set("")
@@ -236,17 +240,24 @@ def Name(name):
 def lastpost(sttime):
 
     s = display4.get()
-    s = f"{sttime} ago"
+    s = f"{sttime}"
     display4.set(s)
 
+
+# def linkfound(fbname,newlink):
+#     now = datetime.now()
+#     current_time = now.strftime("%H:%M:%S")
+#     s += f"\n{fbname} at\n {current_time}"
+#     display5.set(s)
+#     display6.set(f"{newlink} ")
+
+
 def linkfound(fbname,newlink):
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    s += f"\n{fbname} at\n {current_time}"
-    display5.set(s)
-    display6.set(f"{newlink} ")
-
-
+    # s =s+ '\n'+ fbname
+    # print(s)
+    display5.set(fbname)
+    display5.set(newlink)
+        
 
 def openfile():
     filepath=filedialog.askopenfilename(title="open file",filetypes=((("all files","*.*"),("text files","*.txt"))))    
@@ -276,6 +287,7 @@ def clear():
     display1.set("")
 
 
+# s=' '
 
 from PIL import Image, ImageTk
 WIDTH=900
@@ -326,20 +338,16 @@ button8.place(x=500,y=380)
 
 s = ttk.Style()
 s.theme_use('clam')
-s.configure("red.Horizontal.TProgressbar", foreground='#d4d4d4', background='green')
-progress = Progressbar(window, style="red.Horizontal.TProgressbar", orient = HORIZONTAL,length = 150, mode = 'determinate')
-progress.place(x =280,y = 430)
+s.configure("red.Horizontal.TProgressbar", foreground='#d4d4d4', background='#297d4e')
+progress = Progressbar(window, style="red.Horizontal.TProgressbar", orient = HORIZONTAL,length = 140, mode = 'determinate')
+progress.place(x =385,y = 698)
 
-# s = ttk.Style()
-# s.theme_use('clam')
-# s.configure("red.Horizontal.TProgressbar", foreground='#d4d4d4', background='green')
-# progress = Progressbar(window, style="red.Horizontal.TProgressbar", orient = HORIZONTAL,length = 150, mode = 'determinate')
-# progress.place(x =660,y = 480)
+
 
 display2 = StringVar()
 display2.set("")
-Label(window,text = display2.get(), textvariable = display2).place(x =440,y = 430)
-
+Label(window,font=('Arial',8),text = display2.get(), textvariable = display2).place(x =538,y = 700)
+# 542 385
 
 
 
@@ -353,14 +361,15 @@ display4 = StringVar()
 display4.set("")
 lbl4=Label(window,font=('Arial',15,'bold'),text = display4.get(), textvariable = display4).place(x =115,y = 540)
 
-Label(window,font=('Arial',15),text="Found links: ").place(x =10,y = 590)
+Label(window,font=('Arial',15),text="Today's: ").place(x =10,y = 590)
 display5 = StringVar()
 display5.set("")
 Label(window,fg='#1a3f5c',font=('Arial',13),text = display5.get(), textvariable = display5).place(x =130,y = 594)
+# Label(window,font=('Arial',7),text="(24 hr)").place(x =10,y = 618)
 
 display6 = StringVar()
 display6.set("")
-Label(window,fg='#1a3f5c',font=('Arial',10),text = display6.get(), textvariable = display6).place(x =0,y = 650)
+Label(window,fg='#1a3f5c',font=('Arial',10),text = display6.get(), textvariable = display6).place(x =0,y = 680)
 
 time_lable=Label(window,font=("Arial",30))
 time_lable.place(x =660,y = 500)
