@@ -329,7 +329,7 @@ def play_video():
   newWindow.geometry("650x400")
 
   videoplayer = TkinterVideo(master=newWindow, scaled=True)
-  videoplayer.load(r"videos/mosh.mp4")
+  videoplayer.load(r"videos/demo.mp4")
   videoplayer.pack(expand=True, fill="both")
   videoplayer.play() 
 
