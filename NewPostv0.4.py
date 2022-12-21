@@ -296,7 +296,11 @@ def clear():
     entry.delete(0, END)
     display1.set("")
 
-
+def display():
+    if (x.get()==1):
+        print("🥳")
+    else:
+        print("🤢")
 
 s=' '
 Label(window, text='New Feeed Notifier',fg='#3b5998',font=('Arial',35,'bold'),
@@ -407,9 +411,31 @@ date_lable=Label(window,fg='#1a3f5c',font=("Arial",20,'bold'))
 date_lable.place(x =660,y = 585)
 timeupdate()
 
+
+
+
 # current_value = StringVar(value=0)
 # spin_box = Spinbox(window,from_=0,to=5,textvariable=current_value,wrap=True)
 # spin_box.place(x=10,y=600)
+
+
+# menubar = Menu(window)
+# show_all = BooleanVar()
+# show_all.set(True)
+# show_done = BooleanVar()
+# show_not_done = BooleanVar()
+
+# view_menu = Menu(menubar)
+# view_menu.add_checkbutton(label="Show All", onvalue=1, offvalue=0, variable=show_all)
+# view_menu.add_checkbutton(label="Show Done", onvalue=1, offvalue=0, variable=show_done)
+# view_menu.add_checkbutton(label="Show Not Done", onvalue=1, offvalue=0, variable=show_not_done)
+# menubar.add_cascade(label='View', menu=view_menu)
+# window.config(menu=menubar)
+# print(show_all.get())
+
+
+
+
 
 image_width=pic.width()
 image_height=pic.height()

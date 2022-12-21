@@ -57,7 +57,31 @@
 
 
 # import required module
-from playsound import playsound
+# from playsound import playsound
 
-playsound('alarm/a1.wav')
-print('alarm!')
+# playsound('alarm/a1.wav')
+# print('alarm!')
+
+
+
+import tkinter as tk
+
+window = Tk()
+
+menubar = Menu(window)
+show_all = BooleanVar()
+show_all.set(True)
+show_done = BooleanVar()
+show_not_done = BooleanVar()
+
+view_menu = Menu(menubar)
+view_menu.add_checkbutton(label="Show All", onvalue=1, offvalue=0, variable=show_all)
+view_menu.add_checkbutton(label="Show Done", onvalue=1, offvalue=0, variable=show_done)
+view_menu.add_checkbutton(label="Show Not Done", onvalue=1, offvalue=0, variable=show_not_done)
+menubar.add_cascade(label='View', menu=view_menu)
+window.config(menu=menubar)
+print(show_all.get())
+
+
+
+window.mainloop()
