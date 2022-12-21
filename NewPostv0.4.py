@@ -22,6 +22,7 @@ from time import *
 from threading import Thread
 # from playsound import playsound
 from preferredsoundplayer import playsound
+from tkVideoPlayer import TkinterVideo
 
 
 window = Tk()
@@ -304,6 +305,15 @@ def clear():
     entry.delete(0, END)
     display1.set("")
 
+def play_video():
+  newWindow = Toplevel(master=window)
+  newWindow.title("Demo")
+  newWindow.geometry("650x400")
+
+  videoplayer = TkinterVideo(master=newWindow, scaled=True)
+  videoplayer.load(r"videos/mosh.mp4")
+  videoplayer.pack(expand=True, fill="both")
+  videoplayer.play() 
 
 # s=' '
 Label(window, text='New Feeed Notifier',fg='#3b5998',font=('Arial',35,'bold'),
@@ -396,11 +406,8 @@ display5 = StringVar()
 display5.set("")
 Label(window,fg='#1a3f5c',font=('Arial',13,'bold'),text = display5.get(), textvariable = display5).place(x =70,y = 605)
 
-
-
 # ee4e2e   orange
 # 1a3f5c   blue
-
 
 display6 = StringVar()
 display6.set("")
@@ -414,22 +421,15 @@ date_lable=Label(window,fg='#1a3f5c',font=("Arial",20,'bold'))
 date_lable.place(x =660,y = 585)
 timeupdate()
 
-
-
-
 # current_value = StringVar(value=0)
 # spin_box = Spinbox(window,from_=0,to=5,textvariable=current_value,wrap=True)
 # spin_box.place(x=10,y=600)
-
-
-
 
 menubar = Menu(window,fg='#1a3f5c')
 
 imagest=Image.open('pic/st1.png')
 sizedimgst=imagest.resize((12, 12))
 picst=ImageTk.PhotoImage(sizedimgst)
-
 show_browser = BooleanVar()
 show_browser.set((False))
 Ring_bell = BooleanVar()  
@@ -445,9 +445,8 @@ window.config(menu=menubar)
 imageh=Image.open('pic/h1.png')
 sizedimgh=imageh.resize((12, 12))
 pich=ImageTk.PhotoImage(sizedimgh)
-
 view_info = Menu(menubar, tearoff=0, fg = '#3c5998')
-view_info.add_command(label='Demo',font=("Arial",8,'bold'))
+view_info.add_command(label='Demo',font=("Arial",8,'bold'),command=play_video)
 view_info.add_command(label='Contact',font=("Arial",8,'bold'))
 menubar.add_cascade(label='Help',font=("Arial",9,'bold'), menu=view_info,image=pich)
 window.config(menu=menubar)
@@ -459,8 +458,6 @@ window.config(menu=menubar)
 #   print(Ring_bell.get())
 #   playsound('alarm/a2.wav') #alarm
 #   print('alarm!')
-
-
 
 
 image_width=pic.width()
