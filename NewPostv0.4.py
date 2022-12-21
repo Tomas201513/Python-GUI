@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3q 
 import requests
 import datetime
 import random
@@ -16,17 +16,19 @@ from tkinter import *
 from mttkinter import mtTkinter
 from tkinter import ttk
 from tkinter.ttk import Progressbar
+from tkinter import filedialog,scrolledtext
+import os,time
+from time import *
+from threading import Thread
+# from playsound import playsound
+from preferredsoundplayer import playsound
+
+
 window = Tk()
 window.geometry("920x720")
 window.resizable(False,False)
 window.title("new post flag")
 window.config(background="#D4D4D4")
-from tkinter import filedialog,scrolledtext
-import os,time
-from time import *
-from threading import Thread
-from playsound import playsound
-
 
 console = Console()
 delay = random.randint(3, 6)
@@ -54,9 +56,12 @@ def scanning():
    chrome_options.add_argument("--disable-notifications")
    chrome_options.add_argument("--disable-popup-blocking")
    chrome_options.add_argument("--incognito")
+  
    chrome_options.add_argument('--headless')
    chrome_options.add_argument('--disable-gpu')
-   
+
+
+    
    progress['value'] = 50
    window.update_idletasks()
    
@@ -147,7 +152,8 @@ def scanning():
                   break
                
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m" or \
-                   sttime == "3m" or sttime == "4m"or sttime == "3 m" or sttime == "4 m":
+                   sttime == "3m" or sttime == "4m"or sttime == "3 m" or sttime == "4 m"\
+                    or sttime == "21m" or sttime == "22m"or sttime == "23m" or sttime == "24m":
 
                       links = [elem.get_attribute('href') for elem in times]
                       newlink=links[0]
@@ -178,8 +184,10 @@ def scanning():
                                 pass
                              
                               display5.set(f"{fbname} at {current_clock}")
-                              playsound('alarm/a1.wav') #alarm
-                              print('alarm!')
+
+                              if Ring_bell.get()=='True':
+                                playsound('alarm/a1.wav') #alarm
+                                print('alarm!')
 
                               message_body = str(current_time) + '\n' + \
                                 "Here Is The Link  \N{thumbs up sign}   :" + \
@@ -296,13 +304,8 @@ def clear():
     entry.delete(0, END)
     display1.set("")
 
-def display():
-    if (x.get()==1):
-        print("🥳")
-    else:
-        print("🤢")
 
-s=' '
+# s=' '
 Label(window, text='New Feeed Notifier',fg='#3b5998',font=('Arial',35,'bold'),
              compound='bottom',).pack()
 
@@ -365,30 +368,30 @@ Label(window,font=('Arial',8),text = display2.get(), textvariable = display2).pl
 
 
 images=Image.open('pic/sp3.png')
-sizedimgs=images.resize((35, 35))
+sizedimgs=images.resize((25, 25))
 pics=ImageTk.PhotoImage(sizedimgs)
 varun_labels = Label(image=pics)
-varun_labels.place(x=10,y=490)
+varun_labels.place(x=15,y=495)
 display3 = StringVar()
 display3.set("")
 lbl3=Label(window,font=('Arial',15,'bold'),fg='#ee4e2e',text = display3.get(), textvariable = display3).place(x =70,y = 495)
 
 
 imaget=Image.open('pic/dt.png')
-sizedimgt=imaget.resize((40, 40))
+sizedimgt=imaget.resize((30, 30))
 pict=ImageTk.PhotoImage(sizedimgt)
 varun_labelt = Label(image=pict)
-varun_labelt.place(x=10,y=534)
+varun_labelt.place(x=15,y=538)
 display4 = StringVar()
 display4.set("")
 lbl4=Label(window,font=('Arial',15,'bold'),fg='#ee4e2e',text = display4.get(), textvariable = display4).place(x =70,y = 540)
 
 
 imagep=Image.open('pic/bs1.png')
-sizedimgp=imagep.resize((40, 40))
+sizedimgp=imagep.resize((32, 32))
 picp=ImageTk.PhotoImage(sizedimgp)
 varun_labelp = Label(image=picp)
-varun_labelp.place(x=10,y=595)
+varun_labelp.place(x=12,y=595)
 display5 = StringVar()
 display5.set("")
 Label(window,fg='#1a3f5c',font=('Arial',13,'bold'),text = display5.get(), textvariable = display5).place(x =70,y = 605)
@@ -419,20 +422,43 @@ timeupdate()
 # spin_box.place(x=10,y=600)
 
 
-# menubar = Menu(window)
-# show_all = BooleanVar()
-# show_all.set(True)
-# show_done = BooleanVar()
-# show_not_done = BooleanVar()
 
-# view_menu = Menu(menubar)
-# view_menu.add_checkbutton(label="Show All", onvalue=1, offvalue=0, variable=show_all)
-# view_menu.add_checkbutton(label="Show Done", onvalue=1, offvalue=0, variable=show_done)
-# view_menu.add_checkbutton(label="Show Not Done", onvalue=1, offvalue=0, variable=show_not_done)
-# menubar.add_cascade(label='View', menu=view_menu)
-# window.config(menu=menubar)
-# print(show_all.get())
 
+menubar = Menu(window,fg='#1a3f5c')
+
+imagest=Image.open('pic/st1.png')
+sizedimgst=imagest.resize((12, 12))
+picst=ImageTk.PhotoImage(sizedimgst)
+
+show_browser = BooleanVar()
+show_browser.set((False))
+Ring_bell = BooleanVar()  
+Ring_bell.set((True))
+show_not_done = BooleanVar()
+view_menu = Menu(menubar, tearoff=0, fg = '#3c5998')
+view_menu.add_checkbutton(label="Show browser",font=("Arial",8,'bold'), onvalue=1, offvalue=0, variable=show_browser)
+view_menu.add_checkbutton(label="Notification bell",font=("Arial",8,'bold'), onvalue=1, offvalue=0, variable=Ring_bell)
+menubar.add_cascade(label='Edit',font=("Arial",9,'bold'), menu=view_menu,image=picst)
+window.config(menu=menubar)
+
+#⋮
+imageh=Image.open('pic/h1.png')
+sizedimgh=imageh.resize((12, 12))
+pich=ImageTk.PhotoImage(sizedimgh)
+
+view_info = Menu(menubar, tearoff=0, fg = '#3c5998')
+view_info.add_command(label='Demo',font=("Arial",8,'bold'))
+view_info.add_command(label='Contact',font=("Arial",8,'bold'))
+menubar.add_cascade(label='Help',font=("Arial",9,'bold'), menu=view_info,image=pich)
+window.config(menu=menubar)
+
+
+# print(Ring_bell.get())
+
+# if show_browser.get()=='True':
+#   print(Ring_bell.get())
+#   playsound('alarm/a2.wav') #alarm
+#   print('alarm!')
 
 
 

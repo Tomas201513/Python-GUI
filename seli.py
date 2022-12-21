@@ -56,32 +56,80 @@
 #  print(s)
 
 
-# import required module
+
+
+# import tkinter as tk
+
+# window = Tk()
+
+# menubar = Menu(window)
+# show_all = BooleanVar()
+# show_all.set(True)
+# show_done = BooleanVar()
+# show_not_done = BooleanVar()
+
+# view_menu = Menu(menubar)
+# view_menu.add_checkbutton(label="Show All", onvalue=1, offvalue=0, variable=show_all)
+# view_menu.add_checkbutton(label="Show Done", onvalue=1, offvalue=0, variable=show_done)
+# view_menu.add_checkbutton(label="Show Not Done", onvalue=1, offvalue=0, variable=show_not_done)
+# menubar.add_cascade(label='View', menu=view_menu)
+# window.config(menu=menubar)
+# print(show_all.get())
+
+# window.mainloop()
+
+
 # from playsound import playsound
 
 # playsound('alarm/a1.wav')
 # print('alarm!')
 
 
+# # Import the required libraries
+# from tkinter import *
+# from tkinter import ttk
+
+# # Create an instance of tkinter frame or window
+# win = Tk()
+
+# # Set the size of the window
+# win.geometry("700x350")
+
+# # Define a function to get the output for selected option
+# def selection():
+#    selected = "You selected the option " + str(radio.get())
+#    label.config(text=selected)
+
+# radio = IntVar()
+# Label(text="Your Favourite programming language:", font=('Aerial 11')).pack()
+
+# # Define radiobutton for each options
+# r1 = Radiobutton(win, text="C++", variable=radio, value=1, command=selection)
+
+# r1.pack(anchor=N)
+# r2 = Radiobutton(win, text="Python", variable=radio, value=2, command=selection)
+
+# r2.pack(anchor=N)
+# r3 = Radiobutton(win, text="Java", variable=radio, value=3, command=selection)
+
+# r3.pack(anchor=N)
+
+# # Define a label widget
+# label = Label(win)
+# label.pack()
+
+# win.mainloop()
+
 
 import tkinter as tk
+from tkVideoPlayer import TkinterVideo
 
-window = Tk()
+root = tk.Tk()
 
-menubar = Menu(window)
-show_all = BooleanVar()
-show_all.set(True)
-show_done = BooleanVar()
-show_not_done = BooleanVar()
+videoplayer = TkinterVideo(master=root, scaled=True)
+videoplayer.load(r"videos/mosh.mp4")
+videoplayer.pack(expand=True, fill="both")
 
-view_menu = Menu(menubar)
-view_menu.add_checkbutton(label="Show All", onvalue=1, offvalue=0, variable=show_all)
-view_menu.add_checkbutton(label="Show Done", onvalue=1, offvalue=0, variable=show_done)
-view_menu.add_checkbutton(label="Show Not Done", onvalue=1, offvalue=0, variable=show_not_done)
-menubar.add_cascade(label='View', menu=view_menu)
-window.config(menu=menubar)
-print(show_all.get())
+videoplayer.play() # play the video
 
-
-
-window.mainloop()
+root.mainloop()
