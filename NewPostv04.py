@@ -36,6 +36,8 @@ delay = random.randint(3, 6)
 
 def scanning():
   try:
+   process = multiprocessing.current_process()
+   print(process)
    print('initializing')
    display2.set("initializing...")
 
@@ -154,8 +156,7 @@ def scanning():
                   break
                
                 if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m" or \
-                   sttime == "3m" or sttime == "4m"or sttime == "3 m" or sttime == "4 m"\
-                    or sttime == "21m" or sttime == "22m"or sttime == "23m" or sttime == "24m":
+                   sttime == "3m" or sttime == "4m"or sttime == "3 m" or sttime == "4 m" or sttime == "5m":
 
                       links = [elem.get_attribute('href') for elem in times]
                       newlink=links[0]
@@ -187,9 +188,8 @@ def scanning():
                              
                               display5.set(f"{fbname} at {current_clock}")
 
-                              if Ring_bell.get()=='True':
-                                playsound('alarm/a1.wav') #alarm
-                                print('alarm!')
+                              playsound('alarm/a1.wav') #alarm
+                              print('alarm!')
 
                               message_body = str(current_time) + '\n' + \
                                 "Here Is The Link  \N{thumbs up sign}   :" + \
@@ -232,6 +232,7 @@ def connect(host='http://google.com'):
     except:
         return False
 
+import multiprocessing 
 
 def start_thread():
     
@@ -239,6 +240,7 @@ def start_thread():
     stop = 0
     t = Thread (target = scanning)
     t.start()
+    
 
 
 def stop():
@@ -492,5 +494,5 @@ while True:
 
 
 
-
+window.protocol("WM_DELETE_WINDOW",stop)
 window.mainloop()
