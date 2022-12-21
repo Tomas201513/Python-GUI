@@ -20,8 +20,7 @@ from tkinter import filedialog,scrolledtext
 import os,time
 from time import *
 from threading import Thread
-# from playsound import playsound
-from preferredsoundplayer import playsound
+from playsound import playsound
 from tkVideoPlayer import TkinterVideo
 import urllib.request
 
@@ -217,13 +216,15 @@ def scanning():
                   pass
   except:
     # test
-    print( "connected" if connect() else "no internet!" )
-    # if
+    # print( "connected" if connect() else "no internet!" )
+    inform()
 
 
+from tkinter import messagebox
 
-
-
+def inform():
+    x=messagebox.showinfo(title='something went wrong!',message='check your connnection \n        & Restart!')
+    # x.config(size=5)
 def connect(host='http://google.com'):
     try:
         urllib.request.urlopen(host) #Python 3.x
