@@ -194,48 +194,112 @@
 # This will import all the widgets
 # and modules which are available in
 # tkinter and ttk module
-from tkinter import *
-from tkinter.ttk import *
+# from tkinter import *
+# from tkinter.ttk import *
 
-# creates a Tk() object
-master = Tk()
+# # creates a Tk() object
+# master = Tk()
 
-# sets the geometry of main
-# root window
-master.geometry("200x200")
+# # sets the geometry of main
+# # root window
+# master.geometry("200x200")
 
 
-# function to open a new window
-# on a button click
-def openNewWindow():
+# # function to open a new window
+# # on a button click
+# def openNewWindow():
 	
-	# Toplevel object which will
-	# be treated as a new window
-	newWindow = Toplevel(master)
+# 	# Toplevel object which will
+# 	# be treated as a new window
+# 	newWindow = Toplevel(master)
 
-	# sets the title of the
-	# Toplevel widget
-	newWindow.title("New Window")
+# 	# sets the title of the
+# 	# Toplevel widget
+# 	newWindow.title("New Window")
 
-	# sets the geometry of toplevel
-	newWindow.geometry("200x200")
+# 	# sets the geometry of toplevel
+# 	newWindow.geometry("200x200")
 
-	# A Label widget to show in toplevel
-	Label(newWindow,
-		text ="This is a new window").pack()
+# 	# A Label widget to show in toplevel
+# 	Label(newWindow,
+# 		text ="This is a new window").pack()
 
 
-label = Label(master,
-			text ="This is the main window")
+# label = Label(master,
+# 			text ="This is the main window")
 
-label.pack(pady = 10)
+# label.pack(pady = 10)
 
-# a button widget which will open a
-# new window on button click
-btn = Button(master,
-			text ="Click to open a new window",
-			command = openNewWindow)
-btn.pack(pady = 10)
+# # a button widget which will open a
+# # new window on button click
+# btn = Button(master,
+# 			text ="Click to open a new window",
+# 			command = openNewWindow)
+# btn.pack(pady = 10)
 
-# mainloop, runs infinitely
-mainloop()
+# # mainloop, runs infinitely
+# mainloop()
+
+
+# import urllib.request
+# def connect(host='http://google.com'):
+#     try:
+#         urllib.request.urlopen(host) #Python 3.x
+#         return True
+#     except:
+#         return False
+# # test
+# print( "connected" if connect() else "no internet!" )
+
+# Python program to test
+# internet speed
+  
+# import speedtest  
+  
+  
+# st = speedtest.Speedtest()
+  
+# option = int(input('''What speed do you want to test:  
+  
+# 1) Download Speed  
+  
+# 2) Upload Speed  
+  
+# 3) Ping 
+  
+# Your Choice: '''))
+  
+  
+# if option == 1:  
+  
+#     print(st.download())  
+  
+# elif option == 2: 
+  
+#     print(st.upload())  
+  
+# elif option == 3:  
+  
+#     servernames =[]  
+  
+#     st.get_servers(servernames)  
+  
+#     print(st.results.ping)  
+  
+# else:
+  
+#     print("Please enter the correct choice !") 
+
+
+# import speedtest module 
+import speedtest
+
+speed_test = speedtest.Speedtest()
+
+def bytes_to_mb(bytes):
+  KB = 1024 # One Kilobyte is 1024 bytes
+  MB = KB * 1024 # One MB is 1024 KB
+  return int(bytes/MB)
+
+download_speed = bytes_to_mb(speed_test.download())
+print("Your Download speed is", download_speed, "MB") 

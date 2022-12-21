@@ -23,6 +23,7 @@ from threading import Thread
 # from playsound import playsound
 from preferredsoundplayer import playsound
 from tkVideoPlayer import TkinterVideo
+import urllib.request
 
 
 window = Tk()
@@ -35,6 +36,7 @@ console = Console()
 delay = random.randint(3, 6)
 
 def scanning():
+  try:
    print('initializing')
    display2.set("initializing...")
 
@@ -213,6 +215,22 @@ def scanning():
                               pass
                 else:
                   pass
+  except:
+    # test
+    print( "connected" if connect() else "no internet!" )
+    # if
+
+
+
+
+
+def connect(host='http://google.com'):
+    try:
+        urllib.request.urlopen(host) #Python 3.x
+        return True
+    except:
+        return False
+
 
 def start_thread():
     
