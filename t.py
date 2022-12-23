@@ -1,5 +1,5 @@
 import time 
-from time import sleep   
+# from time import sleep   
 import urllib.request
 from colorama import Fore, Back, Style
 
@@ -11,7 +11,7 @@ def connect():
             return False
 
 for i in range(0,100):
-    # try:
+    try:
         if connect():
             print(Back.GREEN, Fore.YELLOW)
             print("good")
@@ -20,6 +20,6 @@ for i in range(0,100):
             print(Back.RED, Fore.YELLOW)
             print("bad")
             sleep(3)
-    # except:
-    #     print("not working")
+    except:
+        print("not working")
 # print("not working")

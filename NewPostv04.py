@@ -30,201 +30,229 @@ window.geometry("920x720")
 window.resizable(False,False)
 window.title("new post flag")
 window.config(background="#D4D4D4")
+# window.attributes('-alpha',0.2)
+# window.overrideredirect(1)
 
 console = Console()
 delay = random.randint(3, 6)
 
 def scanning():
-  try:
-   process = multiprocessing.current_process()
-   print(process)
-   print('initializing')
-   display2.set("initializing...")
-
-   progress['value'] = 25
-   window.update_idletasks()
-
-   converted_list = []
-   
-   with open('./links/flagpagelink.txt', 'r') as file:
-      lines_next = file.readlines()
-      for element in lines_next:
-            converted_list.append(element.strip())
-   x = len((lines_next))
   
-   chrome_options = Options()
-   prefs = {"profile.default_content_setting_values.geolocation": 2}
-   chrome_options.add_experimental_option("prefs", prefs)
-   chrome_options.add_argument("--disable-infobars")
-   chrome_options.add_argument("--start-maximized")
-   chrome_options.add_argument("--disable-notifications")
-   chrome_options.add_argument("--disable-popup-blocking")
-   chrome_options.add_argument("--incognito")
-  
-   chrome_options.add_argument('--headless')
-   chrome_options.add_argument('--disable-gpu')
+    for i in range(0,1000000000):
+      if connect():
+        try:
+          process = multiprocessing.current_process()
+          print(process)
+          print('initializing')
+          display2.set("initializing...")
 
+          progress['value'] = 25
+          window.update_idletasks()
 
-    
-   progress['value'] = 50
-   window.update_idletasks()
-   
-   driver = webdriver.Chrome(service=Service(
-      ChromeDriverManager().install()), options=chrome_options)
-   sleep(delay)
-   y = x-1
-   for _ in range(1, x):
-      driver.execute_script("window.open('');")
-  
-      if stop == 1:   #⛔
-          clean()
-          break
-
-   progress['value'] = 75
-   window.update_idletasks()
-
-   for i in range(x):
-      driver.switch_to.window(driver.window_handles[i])
-      sleep(10)
-      driver.get(converted_list[i])
-      if stop == 1:   #⛔
-        clean()
-        break
-      sleep(delay)
-      
-   progress['value'] = 100
-   window.update_idletasks()
-   progress['value'] = 100
-
-
-   with console.status("[bold yellow] Searching New Post . . .") as status:
-    display2.set("Scaning started!")
-
-    while True:
-
-          if stop == 1:   #⛔
-             clean()
-             break
-          sleep(10)
+          converted_list = []
           
-          for i in range(x):
-              driver.switch_to.window(
-                driver.window_handles[i])
+          with open('./links/flagpagelink.txt', 'r') as file:
+              lines_next = file.readlines()
+              for element in lines_next:
+                    converted_list.append(element.strip())
+          x = len((lines_next))
+          
+          chrome_options = Options()
+          prefs = {"profile.default_content_setting_values.geolocation": 2}
+          chrome_options.add_experimental_option("prefs", prefs)
+          chrome_options.add_argument("--disable-infobars")
+          chrome_options.add_argument("--start-maximized")
+          chrome_options.add_argument("--disable-notifications")
+          chrome_options.add_argument("--disable-popup-blocking")
+          chrome_options.add_argument("--incognito")
+          
+          chrome_options.add_argument('--headless')
+          chrome_options.add_argument('--disable-gpu')
 
-              sleep(delay)
+
+            
+          progress['value'] = 50
+          window.update_idletasks()
+          
+          driver = webdriver.Chrome(service=Service(
+              ChromeDriverManager().install()), options=chrome_options)
+          sleep(delay)
+          y = x-1
+          for _ in range(1, x):
+              driver.execute_script("window.open('');")
+          
+              if stop == 1:   #⛔
+                  clean()
+                  break
+
+          progress['value'] = 75
+          window.update_idletasks()
+
+          for i in range(x):
+              driver.switch_to.window(driver.window_handles[i])
+              sleep(10)
+              driver.get(converted_list[i])
               if stop == 1:   #⛔
                 clean()
                 break
-              driver.refresh()
               sleep(delay)
-              times = driver.find_elements(
-                By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
-              try:
-                name = driver.find_element(
-                  By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
-              except:
-                name = driver.find_element(
-                  By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
               
+          progress['value'] = 100
+          window.update_idletasks()
+          progress['value'] = 100
 
-              for ttime in times:
-                
-                body_elem = driver.find_element(
-                      By.TAG_NAME, 'body')
-                body_elem.send_keys(Keys.ARROW_DOWN)
-                if stop == 1:   #⛔
-                  clean()
-                  break
-                sleep(delay)
-                body_elem.send_keys(Keys.ARROW_UP)
-                if stop == 1:   #⛔
-                  clean()
-                  break
-                sleep(delay)
-                sttime = ttime.text
-                print(sttime)
-                fbname=name.text
-                Name(fbname)
-                lastpost(sttime)
 
-                if stop == 1:   #⛔
-                  clean()
-                  break
-                sleep(delay)
-                if stop == 1:   #⛔
-                  clean()
-                  break
-               
-                if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m" or \
-                   sttime == "3m" or sttime == "4m"or sttime == "3 m" or sttime == "4 m" or sttime == "5m":
+          with console.status("[bold yellow] Searching New Post . . .") as status:
+            display2.set("Scaning started!")
 
-                      links = [elem.get_attribute('href') for elem in times]
-                      newlink=links[0]
+            while True:
 
-                      with open('./links/file.txt','r') as f:
-                        lastlink=f.readlines()[-1]
-                        if newlink!=lastlink:                          
-                          try: 
-                              print("Here is New Link -->   ",str(newlink))                                
-                    
+                  if stop == 1:   #⛔
+                    clean()
+                    break
+                  sleep(10)
+                  
+                  for i in range(x):
+                      driver.switch_to.window(
+                        driver.window_handles[i])
+
+                      sleep(delay)
+                      if stop == 1:   #⛔
+                        clean()
+                        break
+                      driver.refresh()
+                      sleep(delay)
+                      times = driver.find_elements(
+                        By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
+                      try:
+                        name = driver.find_element(
+                          By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
+                      except:
+                        name = driver.find_element(
+                          By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
+                      
+
+                      for ttime in times:
+                        
+                        body_elem = driver.find_element(
+                              By.TAG_NAME, 'body')
+                        body_elem.send_keys(Keys.ARROW_DOWN)
+                        if stop == 1:   #⛔
+                          clean()
+                          break
+                        sleep(delay)
+                        body_elem.send_keys(Keys.ARROW_UP)
+                        if stop == 1:   #⛔
+                          clean()
+                          break
+                        sleep(delay)
+                        sttime = ttime.text
+                        print(sttime)
+                        fbname=name.text
+                        Name(fbname)
+                        lastpost(sttime)
+
+                        if stop == 1:   #⛔
+                          clean()
+                          break
+                        sleep(delay)
+                        if stop == 1:   #⛔
+                          clean()
+                          break
+                      
+                        if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m" or \
+                          sttime == "3m" or sttime == "4m"or sttime == "3 m" or sttime == "4 m" or sttime == "5m":
+
+                              links = [elem.get_attribute('href') for elem in times]
+                              newlink=links[0]
+
+                              with open('./links/file.txt','r') as f:
+                                lastlink=f.readlines()[-1]
+                                if newlink!=lastlink:                          
+                                  try: 
+                                      print("Here is New Link -->   ",str(newlink))                                
                             
-                              with open("./links/file.txt", 'a+') as f:
-           
-                                f.writelines("\n")
-                                f.writelines(
-                                      "New Post on " + newlink)
+                                    
+                                      with open("./links/file.txt", 'a+') as f:
+                  
+                                        f.writelines("\n")
+                                        f.writelines(
+                                              "New Post on " + newlink)
 
 
-                              current_time = datetime.datetime.now().strftime(
-                                "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %I:%M:%S")
+                                      current_time = datetime.datetime.now().strftime(
+                                        "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %I:%M:%S")
 
-                              current_clock = datetime.datetime.now().strftime("%I:%M:%S")
-                              try:
+                                      current_clock = datetime.datetime.now().strftime("%I:%M:%S")
+                                      try:
 
-                                s =s+fbname+'\n'
-                                print(s)
-                              except:
-                                pass
-                             
-                              display5.set(f"{fbname} at {current_clock}")
+                                        s =s+fbname+'\n'
+                                        print(s)
+                                      except:
+                                        pass
+                                    
+                                      display5.set(f"{fbname} at {current_clock}")
 
-                              playsound('alarm/a1.wav') #alarm
-                              print('alarm!')
+                                      playsound('alarm/a1.wav') #alarm
+                                      print('alarm!')
 
-                              message_body = str(current_time) + '\n' + \
-                                "Here Is The Link  \N{thumbs up sign}   :" + \
-                                '\n' + str(newlink)
+                                      message_body = str(current_time) + '\n' + \
+                                        "Here Is The Link  \N{thumbs up sign}   :" + \
+                                        '\n' + str(newlink)
 
-                              bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
-                              bot_chatID = '395490182'
-                             
-                              try:    
-                                url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={bot_chatID}&text={message_body}"
-                                requests.post(url)
-                                print('send!')
+                                      bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
+                                      bot_chatID = '395490182'
+                                    
+                                      try:    
+                                        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={bot_chatID}&text={message_body}"
+                                        requests.post(url)
+                                        print('send!')
 
-                              except:
-                                print('unable to send /check the bot')
+                                      except:
+                                        print('unable to send /check the bot')
 
-                              if stop == 1:   #⛔
-                                clean()
-                                break
+                                      if stop == 1:   #⛔
+                                        clean()
+                                        break
 
-                          except:
-                              pass
-                else:
-                  pass
-  except:
-    # test
-    # print( "connected" if connect() else "no internet!" )
-    inform()
+                                  except:
+                                      pass
+                        else:
+                          pass
+        except:
+              pass
+      else:
+        if stop == 1:   #⛔
+          clean()
+          break
+        print("bad internet")
+        display3.set("····No internet····")
+        display3.set("····")
+
+                # display3.set(" ·   ·   ·")
+
+        sleep(3)
+
+  # except:
+  #   # test
+  #   # print( "connected" if connect() else "no internet!" )
+  #   inform()
 
 
 from tkinter import messagebox
+def whatever():
+  global stop
+  stop = 1
+  window.destroy()
+    # if stop==1:
+
+    # print("oi don't press that button")
+
 
 def inform():
     x=messagebox.showinfo(title='something went wrong!',message='check your connnection \n        & Restart!')
     # x.config(size=5)
+
 def connect(host='http://google.com'):
     try:
         urllib.request.urlopen(host) #Python 3.x
