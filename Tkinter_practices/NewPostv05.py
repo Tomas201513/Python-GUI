@@ -55,7 +55,7 @@ def scanning():
 
           converted_list = []
           
-          with open('./links/flagpagelink.txt', 'r') as file:
+          with open('./links/fb_pages.txt', 'r') as file:
               lines_next = file.readlines()
               for element in lines_next:
                     converted_list.append(element.strip())
@@ -191,7 +191,7 @@ def scanning():
                               newlink=links[0]
                               display_new_post.set(" ·  ·  ·")
 
-                              with open('./links/file.txt','r') as f:
+                              with open('./links/link_found_by_bot.txt','r') as f:
                                 lastlink=f.readlines()[-1]
                                 if newlink!=lastlink:                          
                                   notify_telegram_bot(fbname,newlink)
@@ -215,7 +215,7 @@ def notify_telegram_bot(fbname,newlink):
     try: 
         print("Here is New Link -->   ",str(newlink))                                
     
-        with open("./links/file.txt", 'a+') as f:
+        with open("./links/link_found_by_bot.txt", 'a+') as f:
 
             f.writelines("\n")
             f.writelines(
@@ -644,31 +644,12 @@ menubar.add_cascade(label='Help',
             image=display_help_image)
 window.config(menu=menubar)
 
-## this was for moving facebook logo right & left
-# image_width=pic.width()
-# image_height=pic.height()
-# while True:
-#     coordinate=canvas.coords(myimage)
-#     if(coordinate[0]>=WIDTH-image_width or coordinate[0]<0):
-#         xVelocity=-xVelocity
-#     if(coordinate[1]>=HEIGHT-image_height or coordinate[1]<0):
-#         yVelocity=-yVelocity
-#     canvas.move(myimage,xVelocity,yVelocity)
-#     window.update()
-
-
 
 window.protocol("WM_DELETE_WINDOW",close)
 window.mainloop()
 
 # print("##################################")
 # stop()
-
-
-
-
-
-
 
 
 
