@@ -424,7 +424,7 @@ canvas.pack()
 
 
 
-key events ⌨️
+# key events ⌨️
 
 # window.bind(event,function)
 def dosmtg(event):
@@ -432,7 +432,7 @@ def dosmtg(event):
 window.bind("<Key>",dosmtg)
 
 
-key event that display what key is pressed
+# key event that display what key is pressed
 def dosmtg(event):
     label.config(text=event.keysym)
 window.bind("<Key>",dosmtg)

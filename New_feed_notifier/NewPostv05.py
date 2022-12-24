@@ -614,6 +614,7 @@ global Ring_bell
 Ring_bell = IntVar()  
 Ring_bell.set(1)
 show_not_done = BooleanVar()
+
 view_menu = Menu(menubar, 
     tearoff=0, 
     fg = '#3c5998')
