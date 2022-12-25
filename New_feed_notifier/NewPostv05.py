@@ -29,7 +29,7 @@ import customtkinter
 
 
 window = Tk()
-window.geometry("920x720")
+window.geometry("920x700")#920x720
 window.resizable(False,False)
 window.title("new post flag")
 window.config(background="#D4D4D4")
@@ -80,16 +80,15 @@ def scanning():
 
           progress['value'] = 50
           window.update_idletasks()
-          
-          driver = webdriver.Chrome(
-            service=Service(
-                ChromeDriverManager().install())
-                , options=chrome_options)
+
+          driver = webdriver.Chrome(service=Service(
+              ChromeDriverManager().install()), options=chrome_options)
+         
           sleep(delay)
           y = x-1
           for _ in range(1, x):
               driver.execute_script("window.open('');")
-          
+              
               if stop == 1:   #⛔
                   clean()
                   break
@@ -101,6 +100,7 @@ def scanning():
               driver.switch_to.window(driver.window_handles[i])
               sleep(10)
               driver.get(converted_list[i])
+            
               if stop == 1:   #⛔
                 clean()
                 break
@@ -108,7 +108,6 @@ def scanning():
               
           progress['value'] = 100
           window.update_idletasks()
-          progress['value'] = 100
           display_scaned_username.set(" ·  ·  ·")
           display_release_datetime.set(" ·  ·  ·")
 
@@ -134,10 +133,7 @@ def scanning():
                       driver.refresh()
                       sleep(delay)
                       times = driver.find_elements(
-                        By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.\
-                            x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.\
-                                xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz\
-                                    .x1heor9g.xt0b8zv.xo1l8bm")
+                        By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
                       try:
                         name = driver.find_element(
                           By.XPATH, 
@@ -316,9 +312,10 @@ def save():
 
   fn=entry.get()
   print(fn)
-  f = open(fn, "w")
+  f = open(f"./links/{fn}", "w")
   filetxt=scrolledtext_box.get(1.0,END)
   f.write(filetxt)
+  print(filetxt)
   f.close()
   scrolledtext_box.delete('1.0', END)
   entry.delete(0, END)
@@ -519,7 +516,7 @@ progress = Progressbar(window,
     length = 140, 
     mode = 'determinate')
 progress.place(x =385,
-            y = 698)
+            y = 678)
 
 
 #taskbar description bottom
@@ -528,7 +525,7 @@ display_progress.set("")
 Label(window,
     font=('Arial',8),
     text = display_progress.get(), 
-    textvariable = display_progress).place(x =538,y = 700)
+    textvariable = display_progress).place(x =538,y = 680)
 
 #No internet label  
 connection_status = StringVar()
@@ -641,10 +638,10 @@ display_help_image=ImageTk.PhotoImage(sized_help_image)
 view_info = Menu(menubar, 
     tearoff=0, 
     fg = '#3c5998')
-view_info.add_command(label='Demo',
+view_info.add_command(label='Demo video',
     font=("Arial",8,'bold'),
     command=play_video)
-view_info.add_command(label='Contact',
+view_info.add_command(label='Documentation',
                 font=("Arial",8,'bold'))
 menubar.add_cascade(label='Help',
             font=("Arial",9,'bold'),
