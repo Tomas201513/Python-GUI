@@ -25,6 +25,8 @@ from playsound import playsound
 import urllib.request
 from PIL import Image, ImageTk
 import customtkinter
+import webbrowser
+
 
 
 
@@ -391,6 +393,7 @@ def clear():
     entry.delete(0, END)
     file_status_label.set("")
 
+
 def play_video():
   ''' Used to display demo video'''
 
@@ -409,6 +412,11 @@ def close():
           global stop
           stop=1
           window.destroy()
+
+
+def show_docmt():
+  ''' opens the documentation in a browser'''
+  webbrowser.open_new(r'file:/home/tomas/Documents/GitHub/Python-GUI/New_feed_notifier/doc/New_feed_notifier_documentation.pdf')
 
 
 
@@ -642,7 +650,8 @@ view_info.add_command(label='Demo video',
     font=("Arial",8,'bold'),
     command=play_video)
 view_info.add_command(label='Documentation',
-                font=("Arial",8,'bold'))
+                font=("Arial",8,'bold'),
+                command=show_docmt)
 menubar.add_cascade(label='Help',
             font=("Arial",9,'bold'),
             menu=view_info,
