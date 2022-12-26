@@ -416,7 +416,7 @@ def close():
 
 def show_docmt():
   ''' opens the documentation in a browser'''
-  webbrowser.open_new(r'file:/home/tomas/Documents/GitHub/Python-GUI/New_feed_notifier/doc/New_feed_notifier_documentation.pdf')
+  webbrowser.open_new(r'file:/home/amin/Documents/GitHub/Python-GUI/New_feed_notifier/doc/New_feed_notifier_documentation.pdf')
 
 
 

@@ -1,0 +1,22 @@
+Things to configure
+
+
+1. Desktop emmiter (give permission to both script and xxxx.desktop file)
+
+    [Desktop Entry]
+    Version=1.0
+    Name=New Post Scanner
+    Comment=My Application Comment :-)
+    Exec=python3 <path to script>
+    Icon=<path to icon>
+    Path=<path to folder>
+    Terminal=false
+    Type=Application
+    Categories=Utility;Application;
+
+
+
+
+2.  Bot tooken 
+    Chat id
+    documentation absolute Path
