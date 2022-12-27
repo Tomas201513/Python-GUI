@@ -1,4 +1,4 @@
-Things to configure
+###################################################Things to configure###################################################
 
 
 1. Desktop emmiter (give permission to both script and xxxx.desktop file)
@@ -20,3 +20,13 @@ Things to configure
 2.  Bot tooken 
     Chat id
     documentation absolute Path
+
+
+3. give a link to  fb_page.txt
+
+
+
+###################################################Project structure###################################################
+
+Two threads there are : 1. main thread that run GUI
+                        2. thread (t) that excute the scanning function
