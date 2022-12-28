@@ -50,11 +50,12 @@ def scanning():
       if connect():
 
         try:
-          print('initializing...')
-          display_progress.set("initializing...")
+          
+          task='initializing...'
+          print(task)
+          display_progress.set(task)
           progress['value'] = 25
           window.update_idletasks()
-
           converted_list = []
           
           with open('./links/fb_pages.txt', 'r') as file:
@@ -113,17 +114,51 @@ def scanning():
           display_scaned_username.set(" ·  ·  ·")
           display_release_datetime.set(" ·  ·  ·")
 
+          for i in range(0,10000000000000000000000000000000000000):
+            if connect():  
+              try:
+                
+                if stop == 1:#⛔
+                  clean()
+                  break
+                scan(x,driver)
+              except:
+                pass
+            else:
+              
+              print("No internet")
+              display_progress.set((""))
+              connection_status.set("No internet ...")
+              sleep(3)
 
-          with console.status("[bold yellow] Searching New Post . . .") as status:
+          if stop == 1:#⛔
+            clean()
+            break
+          
+        except:
+              pass
+      else:
+        if stop == 1:#⛔
+          clean()
+          break
+        clean()
+        print("No internet")
+        display_progress.set((""))
+        connection_status.set("No internet ...")
+        sleep(3)
+        connection_status.set("")
+
+
+def scan(x,driver):
+  with console.status("[bold yellow] Searching New Post . . .") as status:
             display_progress.set("Scaning started!")
-
             while True:
-
+                 
                   if stop == 1:   #⛔
                     clean()
                     break
                   sleep(10)
-                  
+                  x=x
                   for i in range(x):
                       driver.switch_to.window(
                         driver.window_handles[i])
@@ -195,18 +230,6 @@ def scanning():
                                   notify_telegram_bot(fbname,newlink)
                         else:
                           pass
-        except:
-              pass
-      else:
-        if stop == 1:#⛔
-          clean()
-          break
-        clean()
-        print("No internet")
-        display_progress.set((""))
-        connection_status.set("No internet ...")
-        sleep(3)
-        connection_status.set("")
 
 
 def notify_telegram_bot(fbname,newlink):
@@ -255,7 +278,6 @@ def notify_telegram_bot(fbname,newlink):
 
     except:
         pass
-
 
 def ring():
      try:
