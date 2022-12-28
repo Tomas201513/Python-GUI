@@ -575,7 +575,7 @@ display_scaned_username = StringVar()
 display_scaned_username.set("")
 Label(window,
     font=('Arial',15,'bold'),
-    fg='#ee4e2e',
+    fg='#1a3f5c',
     text = display_scaned_username.get(), 
     textvariable = display_scaned_username).place(x =70,y = 495)
 
@@ -589,7 +589,7 @@ display_release_datetime = StringVar()
 display_release_datetime.set("")
 lbl4=Label(window,
     font=('Arial',15,'bold'),
-    fg='#ee4e2e',
+    fg='#1a3f5c',
     text = display_release_datetime.get(), 
     textvariable = display_release_datetime).place(x =70,y = 540)
 
@@ -602,7 +602,7 @@ bell_label.place(x=12,y=595)
 display_new_post = StringVar()
 display_new_post.set("")
 Label(window,
-    fg='#1a3f5c',
+    fg='#ee4e2e',
     font=('Arial',13,'bold'),
     text = display_new_post.get(), 
     textvariable = display_new_post).place(x =70,y = 605)
