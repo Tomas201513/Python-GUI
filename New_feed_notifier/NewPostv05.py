@@ -262,7 +262,7 @@ def notify_telegram_bot(fbname,newlink):
         '\n' + str(newlink)
 
         bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
-        bot_chatID = '395490182'
+        bot_chatID = '395490182'  #-615901499
     
         try:    
             url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={bot_chatID}&text={message_body}"
