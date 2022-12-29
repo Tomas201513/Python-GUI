@@ -55,9 +55,27 @@ def login():
                     display_progress.set("initializing..")
                     progress['value'] = 25
                     fb_home_url = 'https://www.facebook.com/'
-                    df=pd.read_excel("account/accounts.xlsx", engine='openpyxl')
-                    username=df['username'].tolist()
-                    password=df['password'].tolist()
+                    if account_from_googlesheet == 0:
+                        df=pd.read_excel("account/accounts.xlsx", engine='openpyxl')
+                        username=df['username'].tolist()
+                        password=df['password'].tolist()
+                        print(f"read from local excel\n{username}")
+
+                    elif account_from_googlesheet ==1:
+                        self.scopes = [
+
+                            'https://www.googleapis.com/auth/spreadsheets',
+                            'https://www.googleapis.com/auth/drive',
+                        ]
+                        self.creds = ServiceAccountCredentials.from_json_keyfile_name(
+                            "./key.json", scopes=self.scopes)
+                        self.files = gspread.authorize(self.creds)
+                        self.workbook = self.files.open("Account_Mgt")
+                        self.sheet = self.workbook.worksheet('Sheet2')
+                        username=sheet.col_values("A")
+                        password=sheet.col_values("B")
+                        print(f"read from google spreadsheet\n{username}")
+
 
                     chrome_options = webdriver.ChromeOptions()
                     prefs = {"profile.default_content_setting_values.geolocation": 2}
@@ -119,26 +137,58 @@ def login():
                         target_post=f.readline()
                     print(target_post)
                     driver.get(target_post)
+                    
 
+                    
                     sleep(delay)
                     if stop == 1:   #⛔
                         clean()
                         break
                     print("loged in")
 
-                    like(driver)
-                    if stop == 1:   #⛔
-                        clean()
-                        break
-                    share(driver)
-                    if stop == 1:   #⛔
-                        clean()
-                        break
-                    comment(driver)
-                    if stop == 1:   #⛔
-                        clean()
-                        break
-                    logout(driver)
+                    #like
+                    try: 
+                        if lik==1:
+                            print("like is on")
+                            like(driver)
+                            if stop == 1:   #⛔
+                                clean()
+                                break
+                        elif lik==0:
+                            print("like is off")
+                    except:
+                        print("like is not working")
+
+                    #share
+                    try:
+                        if shar==1:
+                            print("share is on")
+                            share(driver)
+                            if stop == 1:   #⛔
+                                clean()
+                                break
+                        elif shar==0:
+                            print("share is off")
+                    except:
+                        print("share is not working")
+
+                    #comment
+                    try:
+                        if coment==1:
+                            comment(driver)
+                            if stop == 1:   #⛔
+                                clean()
+                                break
+                        elif coment==0:
+                            print("comment is off")
+                    except:
+                        print("comment is not working")
+
+                    #logout
+                    try:
+                        logout(driver)
+                    except:
+                        print("logout isnt working")
                     display_progress.set("")
                     progress['value'] = 0
                     sleep(5)
@@ -436,15 +486,20 @@ button_start = customtkinter.CTkButton(master=window,
     fg_color=('#516fad'),
     text='Start',
     command=start_thread)
-button_start.place(x=280,y=300)
+button_start.place(x=400,y=600)
 
 
 button_stop = customtkinter.CTkButton(master=window, 
     font=('Arial',13,'bold'), 
     fg_color=('#516fad'), 
     text='Stop',command=stop)
-button_stop.place(x=500,y=300)
+button_stop.place(x=620,y=600)
 
+button_default = customtkinter.CTkButton(master=window, 
+    font=('Arial',13,'bold'), 
+    fg_color=('#516fad'), 
+    text='Set default',command=default)
+button_default.place(x=70,y=550)
 
 
 
@@ -486,54 +541,43 @@ Label(window,
 menubar = Menu(window,fg='#1a3f5c')
 
 # #setting
-# setting_images=Image.open('pictures/setting.png')
-# sized_setting_image=setting_images.resize((12, 12))
-# display_setting_image=ImageTk.PhotoImage(sized_setting_image)
-
-# global show_browser
-# show_browser = IntVar()
-
-# global Ring_bell
-# Ring_bell = IntVar()  
-# Ring_bell.set(1)
-# show_not_done = BooleanVar()
-
-# view_menu = Menu(menubar, 
-#     tearoff=0, 
-#     fg = '#3c5998')
-# view_menu.add_checkbutton(label="Show browser",
-#     font=("Arial",8,'bold'), 
-#     onvalue=1, 
-#     offvalue=0, 
-#     variable=show_browser)
-# view_menu.add_checkbutton(label="Notification bell",
-#     font=("Arial",8,'bold'), 
-#     onvalue=1, 
-#     offvalue=0, 
-#     variable=Ring_bell)
-# menubar.add_cascade(label='Edit',
-#     font=("Arial",9,'bold'), 
-#     menu=view_menu,
-#     image=display_setting_image)
-# window.config(menu=menubar)
-
 Label(window, 
     text='Configuration',
     fg='#3b5998',
     font="Arial 12 bold underline",
-    compound='bottom',).place(x=40,y=312)
+    compound='bottom',).place(x=80,y=312)
 
 
-like = IntVar()
-share = IntVar()
-comment = IntVar()
+global lik
+lik = IntVar()
+lik.set(1)
+
+global shar
+shar = IntVar()
+shar.set(1)
+
+global coment
+coment = IntVar()
+coment.set(0)
+
+global show_browser
 show_browser = IntVar()
+show_browser.set(0)
+
+global Ring_bell
 Ring_bell = IntVar()
+Ring_bell.set(1)
+
+global Read_from_bot
 Read_from_bot = IntVar()
+Read_from_bot.set(1)
+
+global account_from_googlesheet
 account_from_googlesheet = IntVar()
+account_from_googlesheet.set(1)
 
 Checkbutton(window, text = " Like",
-					variable = like, ##516fad
+					variable = lik, ##516fad
                     font=("Arial",9,'bold'),
                     fg="#792d6b",
 					onvalue = 1,
@@ -541,48 +585,21 @@ Checkbutton(window, text = " Like",
 					height = 2,
 					width = 10).place(x=27,y=350)
 Checkbutton(window, text = " Share",
-					variable = share, ##516fad
+					variable = shar, ##516fad
                     font=("Arial",9,'bold'),
                     fg="#792d6b",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
-					width = 10).place(x=30,y=380)
+					width = 10).place(x=30,y=400)
 Checkbutton(window, text = " Comment",
-					variable = comment, ##516fad
+					variable = coment, ##516fad
                     font=("Arial",9,'bold'),
                     fg="#792d6b",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
-					width = 10).place(x=40,y=410)
-
-Checkbutton(window, text = " Show browser",
-					variable = show_browser, ##516fad
-                    font=("Arial",9,'bold'),
-                    fg="#792d6b",
-					onvalue = 1,
-					offvalue = 0,
-					height = 2,
-					width = 10).place(x=50,y=440)
-
-Checkbutton(window, text = " Ring bell",
-					variable = Ring_bell,
-                    font=("Arial",9,'bold'),
-                    fg="#792d6b",
-					onvalue = 1,
-					offvalue = 0,
-					height = 2,
-					width = 10).place(x=40,y=470)
-
-Checkbutton(window, text = " Read linkfrom bot",
-					variable = Read_from_bot,
-                    font=("Arial",9,'bold'),
-                    fg="#792d6b",
-					onvalue = 1,
-					offvalue = 0,
-					height = 2,
-					width = 15).place(x=43,y=500)
+					width = 10).place(x=40,y=450)
 
 Checkbutton(window, text = " Account from googlesheet",
 					variable = account_from_googlesheet,
@@ -591,13 +608,36 @@ Checkbutton(window, text = " Account from googlesheet",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
-					width = 23).place(x=40,y=530)
+					width = 23).place(x=42,y=500)
 
-button_default = customtkinter.CTkButton(master=window, 
-    font=('Arial',13,'bold'), 
-    fg_color=('#516fad'), 
-    text='Set default',command=default)
-button_default.place(x=40,y=560)
+
+
+Checkbutton(window, text = " Show browser",
+					variable = show_browser, ##516fad
+                    font=("Arial",9,'bold'),
+                    fg="#792d6b",
+					onvalue = 1,
+					offvalue = 0,
+					height = 2,
+					width = 11).place(x=160,y=350)
+
+Checkbutton(window, text = " Ring bell",
+					variable = Ring_bell,
+                    font=("Arial",9,'bold'),
+                    fg="#792d6b",
+					onvalue = 1,
+					offvalue = 0,
+					height = 2,
+					width = 10).place(x=150,y=400)
+
+Checkbutton(window, text = " Read linkfrom bot",
+					variable = Read_from_bot,
+                    font=("Arial",9,'bold'),
+                    fg="#792d6b",
+					onvalue = 1,
+					offvalue = 0,
+					height = 2,
+					width = 15).place(x=160,y=450)
 
 
 
