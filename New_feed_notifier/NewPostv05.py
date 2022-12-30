@@ -122,7 +122,8 @@ def scanning():
                   clean()
                   break
                 scan(x,driver)
-              except:
+              except Exception as e:
+                print(e)
                 pass
             else:
               
@@ -135,7 +136,8 @@ def scanning():
             clean()
             break
           
-        except:
+        except Exception as e:
+              print(e)
               pass
       else:
         if stop == 1:#⛔
@@ -179,7 +181,8 @@ def scan(x,driver):
                                 /div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]\
                                     /div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]\
                                         /div[1]/div[1]/span[1]/h2[1]/span[1]/a[1]/strong[1]/span[1]")
-                      except:
+                      except Exception as e:
+                        print(e)
                         name = driver.find_element(
                           By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[3]\
                             /div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[1]/div[2]\
@@ -250,8 +253,9 @@ def notify_telegram_bot(fbname,newlink):
 
             s =s+fbname+'\n'
             print(s)
-        except:
-         pass
+        except Exception as e:
+          print(e)
+          pass
     
         display_new_post.set(f"{fbname} at {current_clock}")
         
@@ -269,14 +273,16 @@ def notify_telegram_bot(fbname,newlink):
             requests.post(url)
             print('send!')
 
-        except:
+        except Exception as e:
+            print(e)
             print('unable to send /check the bot')
 
         # if stop == 1:#⛔
         #  clean()
         #  break
 
-    except:
+    except Exception as e:
+        print(e)
         pass
 
 def ring():
@@ -286,7 +292,8 @@ def ring():
             print('alarm!')
         else:
             print("alarm disabled")
-     except:
+     except Exception as e:
+        print(e)
         print("unable to ring!")
 
 
@@ -296,7 +303,8 @@ def connect(host='http://google.com'):
     try:
         urllib.request.urlopen(host)
         return True
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 def start_thread():
@@ -387,7 +395,8 @@ def openfile():
       scrolledtext_box.insert('1.0',str(file.read()) )
       file.close
       file_status_label.set("opened")
-    except:
+    except Exception as e:
+      print(e)
       print("no opened file (either you didnt select file and close it or some error catched)")
 
 

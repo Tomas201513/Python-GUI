@@ -1,38 +1,14 @@
-from tkinter import *
+import tkinter as tk
 
-root = Tk()
-root.geometry("300x200")
+master_window = tk.Tk()
+master_window.geometry("250x150")
+master_window.title("IntVar Example")
 
-w = Label(root, text ='GeeksForGeeks', font = "50")
-w.pack()
+integer_variable = tk.IntVar(master=master_window, value=1)
 
-Checkbutton1 = IntVar()
-Checkbutton2 = IntVar()
-Checkbutton3 = IntVar()
+label = tk.Label(master_window, textvariable=integer_variable, height=250)
+label.pack()
 
-Button1 = Checkbutton(root, text = "Tutorial",
-					variable = Checkbutton1,
-					onvalue = 1,
-					offvalue = 0,
-					height = 2,
-					width = 10)
+integer_variable.set(100)
 
-Button2 = Checkbutton(root, text = "Student",
-					variable = Checkbutton2,
-					onvalue = 1,
-					offvalue = 0,
-					height = 2,
-					width = 10)
-
-Button3 = Checkbutton(root, text = "Courses",
-					variable = Checkbutton3,
-					onvalue = 1,
-					offvalue = 0,
-					height = 2,
-					width = 10)
-	
-Button1.pack()
-Button2.pack()
-Button3.pack()
-
-mainloop()
+master_window.mainloop()

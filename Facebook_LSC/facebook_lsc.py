@@ -44,39 +44,56 @@ window.config(background="#D4D4D4")
 
 def login():
     for i in range(0,100000000000000000000000000000):
+
         if stop == 1:#⛔
             clean()
             break
         if connect():
-
+    
             try:
+        
+                display_progress.set("initializing..")
+                progress['value'] = 25
+                window.update_idletasks()
+                fb_home_url = 'https://www.facebook.com/'
+                print(account_from_googlesheet.get())
+                if account_from_googlesheet.get() == 0:
+                    df=pd.read_excel("account/accounts.xlsx", engine='openpyxl')
+                    username=df['username'].tolist()
+                    password=df['password'].tolist()
+                    print(f"read from local excel\n{username}")
 
+                elif account_from_googlesheet.get() ==1:
+                    scopes = [
+
+                        'https://www.googleapis.com/auth/spreadsheets',
+                        'https://www.googleapis.com/auth/drive',
+                    ]
+                    creds = ServiceAccountCredentials.from_json_keyfile_name(
+                        "./key.json", scopes=scopes)
+                    files = gspread.authorize(creds)
+                    workbook = files.open("Account_Mgt")
+                    sheet = workbook.worksheet('Sheet2')
+                    username=sheet.col_values(1)
+                    password=sheet.col_values(2)
+                    print(f"read from google spreadsheet\n{username}")
+                else:
+                    print("coudnt get accounts")
+                
                 for i in range(0,len(username)):
-                    display_progress.set("initializing..")
-                    progress['value'] = 25
-                    fb_home_url = 'https://www.facebook.com/'
-                    if account_from_googlesheet == 0:
-                        df=pd.read_excel("account/accounts.xlsx", engine='openpyxl')
-                        username=df['username'].tolist()
-                        password=df['password'].tolist()
-                        print(f"read from local excel\n{username}")
-
-                    elif account_from_googlesheet ==1:
-                        self.scopes = [
-
-                            'https://www.googleapis.com/auth/spreadsheets',
-                            'https://www.googleapis.com/auth/drive',
-                        ]
-                        self.creds = ServiceAccountCredentials.from_json_keyfile_name(
-                            "./key.json", scopes=self.scopes)
-                        self.files = gspread.authorize(self.creds)
-                        self.workbook = self.files.open("Account_Mgt")
-                        self.sheet = self.workbook.worksheet('Sheet2')
-                        username=sheet.col_values("A")
-                        password=sheet.col_values("B")
-                        print(f"read from google spreadsheet\n{username}")
-
-
+                    like_progress['value'] = 0
+                    window.update_idletasks()
+                    share_progress['value'] = 0
+                    window.update_idletasks()
+                    comment_progress['value'] = 0
+                    window.update_idletasks()
+                    if i==0:
+                        like_count.set(total_coment)
+                        share_count.set(total_coment)
+                        comment_count.set(total_coment)
+                    else:
+                        pass
+                    display_scaned_username.set(username[i])
                     chrome_options = webdriver.ChromeOptions()
                     prefs = {"profile.default_content_setting_values.geolocation": 2}
                     chrome_options.add_experimental_option("prefs", prefs)
@@ -102,7 +119,7 @@ def login():
                     display_progress.set("")
                     progress['value'] = 100
 
-                    sleep(delay)
+                    sleep(delay)# 💤 
                     if stop == 1:   #⛔
                         clean()
                         break
@@ -123,23 +140,53 @@ def login():
                     driver.find_element(By.XPATH,
                                         "//input[@id='pass']").send_keys(password[i])
                     
-                    sleep(delay)
+                    sleep(delay)# 💤 
                     if stop == 1:   #⛔
                         clean()
                         break
                     driver.find_element(By.NAME, "good job").click()
 
-                    sleep(delay)
+                    sleep(delay)# 💤 
                     if stop == 1:   #⛔
                         clean()
                         break
-                    with open('links/fblink.txt','r') as f:
-                        target_post=f.readline()
-                    print(target_post)
-                    driver.get(target_post)
-                    
+                    if Read_from_bot.get()==0:
+
+                        with open('links/fblink.txt','r') as f:
+                            link=f.readline()
+                        print(link)
+
+                    elif Read_from_bot.get()==1:
+                        try:
+                            url = f"https://api.telegram.org/bot{tooken}/getUpdates?offset=-1"
+
+                            links = requests.get(url, verify=False)
+                            time.sleep(delay)
+
+                            getText = links.text
+
+                            data = json.loads(getText)
+
+                            try:
+                                link = data['result'][0]['message']['text']
+                            except Exception as e:
+                                 print(e)
+                                 pass
+
+                            try:
+                                link = data['result'][0]['edited_message']['text']
+                            except Exception as e:
+                                print(e)
+                                pass
+                            print(link)
+                        except Exception as e:
+                            print(e)
+                    else:
+                        print("can't get link")
 
                     
+
+                    driver.get(link)
                     sleep(delay)
                     if stop == 1:   #⛔
                         clean()
@@ -156,7 +203,8 @@ def login():
                                 break
                         elif lik==0:
                             print("like is off")
-                    except:
+                    except Exception as e:
+                        print(e)
                         print("like is not working")
 
                     #share
@@ -169,7 +217,8 @@ def login():
                                 break
                         elif shar==0:
                             print("share is off")
-                    except:
+                    except Exception as e:
+                        print(e)
                         print("share is not working")
 
                     #comment
@@ -181,20 +230,31 @@ def login():
                                 break
                         elif coment==0:
                             print("comment is off")
-                    except:
+                    except Exception as e:
+                        print(e)
                         print("comment is not working")
 
                     #logout
                     try:
                         logout(driver)
-                    except:
+                    except Exception as e:
+                        print(e)
                         print("logout isnt working")
                     display_progress.set("")
                     progress['value'] = 0
-                    sleep(5)
+                    sleep(5)# 💤 
 
-            except:
-                    pass
+                    if i==len(username):
+                        try:
+                            report()
+                            print("reported")
+                        except Exception as e:
+                            print(e)
+                            print("coudnt report")
+
+            except Exception as e:
+                    print(e)
+                    print("some error")
         else:
             if stop == 1:#⛔
                 clean()
@@ -203,7 +263,7 @@ def login():
             print("No internet")
             display_progress.set((""))
             connection_status.set("No internet ...")
-            sleep(3)
+            sleep(3)# 💤 
             connection_status.set("")
 
 def like(driver):
@@ -217,22 +277,28 @@ def like(driver):
                         if stop == 1:   #⛔
                           clean()
                           break
-                        time.sleep(delay)
+                        sleep(delay)# 💤 
                         like_button.click()
+                        like_count.set(like_count+1)
+                        like_progress['value'] = 100
+                        window.update_idletasks()       
                         ring()
                         print(f"{track_likes} times Liked " + '\N{thumbs up sign}')
                         track_likes+=1
                         driver.implicitly_wait(30)
-                        time.sleep(delay)
+                        sleep(delay)# 💤 
                         break
                     else:
                         pass
                         if stop == 1:   #⛔
                             clean()
                             break
-    except:
+    except Exception as e:
+        print(e)
         like=driver.find_element(By.XPATH,"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]")
         like.click()
+        like_progress['value'] = 100
+        window.update_idletasks()
 
 
 def share(driver):
@@ -241,17 +307,19 @@ def share(driver):
         "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[1]")
     share.click()
 
-    sleep(delay)
+    sleep(delay)# 💤 
 
     s=driver.find_element(By.XPATH,
         "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]/div[3]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]")
     s.click()
+    share_progress['value'] = 100
+    window.update_idletasks()
 
 
 
 
 def comment(driver):
-    sleep(delay)
+    sleep(delay)# 💤 
     comment=driver.find_element(By.XPATH,
         "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]/div[1]/div[1]/div[1]/p[1]")
     body = driver.find_element(By.TAG_NAME, 'body')
@@ -259,14 +327,16 @@ def comment(driver):
 
     comment.send_keys("bertu")
     comment.send_keys(Keys.ENTER)
+    comment_progress['value'] = 100
+    window.update_idletasks()
 
 def logout(driver):
-    sleep(delay)
+    sleep(delay)# 💤 
     driver.delete_all_cookies()
     account = driver.find_element(By.CLASS_NAME, "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.xzsf02u.x1rg5ohu")
     account.click()
     print('logout')
-    sleep(delay)
+    sleep(delay)# 💤 
     logout = driver.find_element(
         By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[5]/div[1]")
     print(account)
@@ -283,7 +353,8 @@ def ring():
             print('alarm!')
         else:
             print("alarm disabled")
-     except:
+     except Exception as e:
+        print(e)
         print("unable to ring!")
 
 
@@ -293,7 +364,8 @@ def connect(host='http://google.com'):
     try:
         urllib.request.urlopen(host)
         return True
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 def start_thread():
@@ -320,7 +392,7 @@ def clean():
   progress['value'] = 0
   window.update_idletasks()
   display_progress.set("Stoped!")
-  sleep(3)
+  sleep(3)# 💤 
   display_progress.set("")
 
 def openfile():
@@ -340,8 +412,9 @@ def openfile():
       scrolledtext_box.insert('1.0',str(file.read()) )
       file.close
       file_status_label.set("opened")
-    except:
-      print("no opened file (either you didnt select file and close it or some error catched)")
+    except Exception as e:
+        print(e)
+        print("no opened file (either you didnt select file and close it or some error catched)")
 
 def save():
   '''used to save the updated file using dialogu box.....called pressing save button '''
@@ -393,14 +466,43 @@ def show_docmt():
 def default():
     pass
 
+def report():
 
+        url = f"https://api.telegram.org/bot{reporter}/sendDocument?chat_id={reported_to_chat_id}"
 
+        tobe_reported_docs=['Disabled_Accounts.txt','Failed_Accounts.txt','Password_Fail_Accounts.txt']
+        doc_count=0
+        for docs in tobe_reported_docs:
+            doc_count+=1
+            files = {'document': open(f'logfiles/{docs}', 'rb')}
+            response= requests.post(url, files=files)
+            status=response.status_code
+            if status==200:
+                print("Report sent!")
+
+                if doc_count==3:
+                    requests.post(f'https://api.telegram.org/bot{reporter}/sendMessage?chat_id={reported_to_chat_id}&text=sheet2_report👆\
+                    \n{track_likes} total likes from sheet2!\n{track_share} total share from sheet2!\n{track_comment} total comment from sheet2!')
+                    requests.post(f'https://api.telegram.org/bot{reporter}/sendMessage?chat_id={reported_to_chat_id}&text=➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖')
+
+                    requests.post(f'https://api.telegram.org/bot{reporter}/sendMessage?chat_id={reporter_amin_chat_id}&text=sheet2_report_succesfully_sent💪🏿\
+                         \n{track_likes} total likes from sheet2!\n{track_share} total share from sheet2!\n{track_comment} total comment from sheet2!')
+                    requests.post(f'https://api.telegram.org/bot{reporter}/sendMessage?chat_id={reporter_hop_chat_id}&text=sheet2_report_succesfully_sent💪🏿\
+                     \n{track_likes} total likes from sheet2!\n{track_share} total share from sheet2!\n{track_comment} total comment from sheet2!')
+                     
+            else:
+                print("couldnt send report ")
 
 
 console = Console()     #to print to terminal
 delay = random.randint(3, 6)
 
-
+global tooken,reporter,reported_to_chat_id,reporter_amin_chat_id,reporter_hop_chat_id
+tooken=os.getenv('bot_tooken')
+reporter=os.getenv('reporter_bot')
+reported_to_chat_id=os.getenv('reported_to')
+reporter_amin_chat_id=os.getenv('reporter_amin')
+reporter_hop_chat_id=os.getenv('reporter_hop')
 
 Label(window, 
     text='Post       Promoter',
@@ -517,6 +619,48 @@ progress = Progressbar(window,
 progress.place(x =385,
             y = 678)
 
+#like progress bar
+l = ttk.Style()           
+l.theme_use('clam')
+l.configure("red.Horizontal.TProgressbar", 
+    foreground='#d4d4d4', 
+    background='#297d4e')
+like_progress = Progressbar(window, 
+    style="red.Horizontal.TProgressbar", 
+    orient = HORIZONTAL,
+    length = 20, 
+    mode = 'determinate')
+like_progress.place(x =370,y = 400)
+
+# share  progress bar
+sh = ttk.Style()           
+sh.theme_use('clam')
+sh.configure("red.Horizontal.TProgressbar", 
+    foreground='#d4d4d4', 
+    background='#297d4e')
+share_progress = Progressbar(window, 
+    style="red.Horizontal.TProgressbar", 
+    orient = HORIZONTAL,
+    length = 20, 
+    mode = 'determinate')
+share_progress.place(x =370,y = 450)
+
+# comment progress bar
+c = ttk.Style()           
+c.theme_use('clam')
+c.configure("red.Horizontal.TProgressbar", 
+    foreground='#d4d4d4', 
+    background='#297d4e')
+comment_progress = Progressbar(window, 
+    style="red.Horizontal.TProgressbar", 
+    orient = HORIZONTAL,
+    length = 20, 
+    mode = 'determinate')
+comment_progress.place(x =370,y = 500)
+
+
+
+
 
 #taskbar description bottom
 display_progress = StringVar()
@@ -568,54 +712,53 @@ global Ring_bell
 Ring_bell = IntVar()
 Ring_bell.set(1)
 
-global Read_from_bot
-Read_from_bot = IntVar()
-Read_from_bot.set(1)
 
-global account_from_googlesheet
-account_from_googlesheet = IntVar()
-account_from_googlesheet.set(1)
+
 
 Checkbutton(window, text = " Like",
 					variable = lik, ##516fad
                     font=("Arial",9,'bold'),
-                    fg="#792d6b",
+                    fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
 					width = 10).place(x=27,y=350)
+
 Checkbutton(window, text = " Share",
 					variable = shar, ##516fad
                     font=("Arial",9,'bold'),
-                    fg="#792d6b",
+                    fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
 					width = 10).place(x=30,y=400)
+
 Checkbutton(window, text = " Comment",
 					variable = coment, ##516fad
                     font=("Arial",9,'bold'),
-                    fg="#792d6b",
+                    fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
 					width = 10).place(x=40,y=450)
 
+
+global account_from_googlesheet
+account_from_googlesheet = IntVar()
+account_from_googlesheet.set(1)
 Checkbutton(window, text = " Account from googlesheet",
 					variable = account_from_googlesheet,
                     font=("Arial",9,'bold'),
-                    fg="#792d6b",
+                    fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
 					width = 23).place(x=42,y=500)
 
-
-
 Checkbutton(window, text = " Show browser",
 					variable = show_browser, ##516fad
                     font=("Arial",9,'bold'),
-                    fg="#792d6b",
+                    fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
@@ -624,35 +767,54 @@ Checkbutton(window, text = " Show browser",
 Checkbutton(window, text = " Ring bell",
 					variable = Ring_bell,
                     font=("Arial",9,'bold'),
-                    fg="#792d6b",
+                    fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
 					width = 10).place(x=150,y=400)
 
-Checkbutton(window, text = " Read linkfrom bot",
+global Read_from_bot
+Read_from_bot = IntVar()
+Read_from_bot.set(1)
+Checkbutton(window, text = " Read link from bot",
 					variable = Read_from_bot,
                     font=("Arial",9,'bold'),
-                    fg="#792d6b",
+                    fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
 					width = 15).place(x=160,y=450)
 
+Checkbutton(window, text = " Send report",
+					variable = Read_from_bot,
+                    font=("Arial",9,'bold'),
+                    fg="#5c0013",
+					onvalue = 1,
+					offvalue = 0,
+					height = 2,
+					width = 15).place(x=42,y=550)
+
 
 #current account
+
+scan_user_image=Image.open('pictures/contact.png')
+sized_scan_user_image=scan_user_image.resize((25, 25))
+display_sized_scan_user_image=ImageTk.PhotoImage(sized_scan_user_image)
+scan_user_label = Label(image=display_sized_scan_user_image)
+scan_user_label.place(x=450,y=312)
+display_scaned_username = StringVar()
+display_scaned_username.set("")
 Label(window,
-    fg='#3b5998',
-    font="Arial 12 bold underline",
-    text = 'Current account: ', 
-    ).place(x =400,y = 312)
-display_progress = StringVar()
-display_progress.set("xxxxxxxxxx")
-Label(window,
-    fg='#3b5998',
-    font="Arial 12 bold ",
-    text = display_progress.get(), 
-    textvariable = display_progress).place(x =600,y = 312)
+    font=('Arial',15,'bold'),
+    fg='#1a3f5c',
+    text = display_scaned_username.get(), 
+    textvariable = display_scaned_username).place(x =500,y = 312)
+
+global total_like,total_share,total_coment
+total_like=0
+total_share=0
+total_coment=0
+
 
 #total like
 Label(window,
@@ -660,42 +822,41 @@ Label(window,
     font="Arial 12 bold",
     text = 'Like: ', 
     ).place(x =400,y = 400)
-display_progress = StringVar()
-display_progress.set("xxxxxxxxx")
+like_count = StringVar()
+like_count.set(110)
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold ",
-    text = display_progress.get(), 
-    textvariable = display_progress).place(x =450,y = 400)
+    text = like_count.get(), 
+    textvariable = like_count).place(x =450,y = 400)
 
-#total comment
-Label(window,
-    fg='#3b5998',
-    font="Arial 12 bold",
-    text = 'Comment: ', 
-    ).place(x =400,y = 450)
-display_progress = StringVar()
-display_progress.set("xxxxxxxxx")
-Label(window,
-    fg='#3b5998',
-    font="Arial 12 bold ",
-    text = display_progress.get(), 
-    textvariable = display_progress).place(x =490,y = 450)
-#share
+#total Share
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold",
     text = 'Share: ', 
-    ).place(x =400,y = 500)
-display_progress = StringVar()
-display_progress.set("xxxxxxxxx")
+    ).place(x =400,y = 450)
+share_count = StringVar()
+share_count.set(0)
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold ",
-    text = display_progress.get(), 
-    textvariable = display_progress).place(x =460,y = 500)
+    text = share_count.get(), 
+    textvariable = share_count).place(x =460,y = 450)
 
-
+#Comment
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold",
+    text = 'Comment: ', 
+    ).place(x =400,y = 500)
+comment_count = StringVar()
+comment_count.set(0)
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = comment_count.get(), 
+    textvariable = comment_count).place(x =490,y = 500)
 
 
 
@@ -705,13 +866,13 @@ Label(window,
     font="Arial 12 bold",
     text = 'Disabled accounts: ', 
     ).place(x =600,y = 400)
-display_progress = StringVar()
-display_progress.set("xxxxxxxxx")
+disabled_account_count = StringVar()
+disabled_account_count.set(0)
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold ",
-    text = display_progress.get(), 
-    textvariable = display_progress).place(x =750,y = 400)
+    text = disabled_account_count.get(), 
+    textvariable = disabled_account_count).place(x =750,y = 400)
 
 #total Failed accounts
 Label(window,
@@ -719,30 +880,27 @@ Label(window,
     font="Arial 12 bold",
     text = 'Failed accounts: ', 
     ).place(x =600,y = 450)
-display_progress = StringVar()
-display_progress.set("xxxxxxxxx")
+failed_account_count = StringVar()
+failed_account_count.set(0)
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold ",
-    text = display_progress.get(), 
-    textvariable = display_progress).place(x =750,y = 450)
+    text = failed_account_count.get(), 
+    textvariable = failed_account_count).place(x =750,y = 450)
+
 #total password fail accounts
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold",
     text = 'Password fail: ', 
     ).place(x =600,y = 500)
-display_progress = StringVar()
-display_progress.set("xxxxxxxxx")
+paswd_fail_accounts_count = StringVar()
+paswd_fail_accounts_count.set("0")
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold ",
-    text = display_progress.get(), 
-    textvariable = display_progress).place(x =750,y = 500)
-
-
-
-
+    text = paswd_fail_accounts_count.get(), 
+    textvariable = paswd_fail_accounts_count).place(x =750,y = 500)
 
 
 
