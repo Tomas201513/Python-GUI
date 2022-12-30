@@ -42,7 +42,7 @@ window.config(background="#D4D4D4")
 # window.overrideredirect(1)
 
 
-def login():
+def ጀምር():
     for i in range(0,100000000000000000000000000000):
 
         if stop == 1:#⛔
@@ -56,9 +56,11 @@ def login():
                 progress['value'] = 25
                 window.update_idletasks()
                 fb_home_url = 'https://www.facebook.com/'
+                disbled_link = 'checkpoint/disabled/?next'
+                password_fail = 'login/?privacy_mutation_token'
                 print(account_from_googlesheet.get())
                 if account_from_googlesheet.get() == 0:
-                    df=pd.read_excel("account/accounts.xlsx", engine='openpyxl')
+                    df=pd.read_excel("account_counter/accounts.xlsx", engine='openpyxl')
                     username=df['username'].tolist()
                     password=df['password'].tolist()
                     print(f"read from local excel\n{username}")
@@ -80,7 +82,14 @@ def login():
                 else:
                     print("coudnt get accounts")
                 
-                for i in range(0,len(username)):
+                with open('Working_Accounts.txt','r+')as f:
+                    j=f.readline()
+                for i in range(j,len(username)):
+                    try:
+                        with open('Working_Accounts.txt','r+')as f:
+                            f.write(f"{i} \n")
+                    except Exception as e:
+                        print(e)
                     like_progress['value'] = 0
                     window.update_idletasks()
                     share_progress['value'] = 0
@@ -93,6 +102,7 @@ def login():
                         comment_count.set(total_coment)
                     else:
                         pass
+                    account_counter.set(f"{i+1} / {len(username)}")
                     display_scaned_username.set(username[i])
                     chrome_options = webdriver.ChromeOptions()
                     prefs = {"profile.default_content_setting_values.geolocation": 2}
@@ -144,114 +154,75 @@ def login():
                     if stop == 1:   #⛔
                         clean()
                         break
-                    driver.find_element(By.NAME, "good job").click()
-
+                    driver.find_element(By.NAME, "login").click()
                     sleep(delay)# 💤 
-                    if stop == 1:   #⛔
-                        clean()
-                        break
-                    if Read_from_bot.get()==0:
 
-                        with open('links/fblink.txt','r') as f:
-                            link=f.readline()
-                        print(link)
-
-                    elif Read_from_bot.get()==1:
-                        try:
-                            url = f"https://api.telegram.org/bot{tooken}/getUpdates?offset=-1"
-
-                            links = requests.get(url, verify=False)
-                            time.sleep(delay)
-
-                            getText = links.text
-
-                            data = json.loads(getText)
-
-                            try:
-                                link = data['result'][0]['message']['text']
-                            except Exception as e:
-                                 print(e)
-                                 pass
-
-                            try:
-                                link = data['result'][0]['edited_message']['text']
-                            except Exception as e:
-                                print(e)
-                                pass
-                            print(link)
-                        except Exception as e:
-                            print(e)
-                    else:
-                        print("can't get link")
-
+                    current_url = driver.current_url
+                    if home_url == current_url:
                     
+                        login()
+                    elif disbled_link in current_url:
+                        console.print("Login Disabled", style="red")
+                        f = open('logfiles/Disabled_Accounts.txt', 'a')
+                        f.write(str(i) + ' ' + str(username[i]) + '\n')
+                        f.close()
 
-                    driver.get(link)
-                    sleep(delay)
-                    if stop == 1:   #⛔
-                        clean()
-                        break
-                    print("loged in")
+                        disabled_counter=disabled_counter+1
+                        disabled_account_count.set(disabled_counter)
 
-                    #like
-                    try: 
-                        if lik==1:
-                            print("like is on")
-                            like(driver)
-                            if stop == 1:   #⛔
-                                clean()
-                                break
-                        elif lik==0:
-                            print("like is off")
-                    except Exception as e:
-                        print(e)
-                        print("like is not working")
-
-                    #share
-                    try:
-                        if shar==1:
-                            print("share is on")
-                            share(driver)
-                            if stop == 1:   #⛔
-                                clean()
-                                break
-                        elif shar==0:
-                            print("share is off")
-                    except Exception as e:
-                        print(e)
-                        print("share is not working")
-
-                    #comment
-                    try:
-                        if coment==1:
-                            comment(driver)
-                            if stop == 1:   #⛔
-                                clean()
-                                break
-                        elif coment==0:
-                            print("comment is off")
-                    except Exception as e:
-                        print(e)
-                        print("comment is not working")
-
-                    #logout
-                    try:
-                        logout(driver)
-                    except Exception as e:
-                        print(e)
-                        print("logout isnt working")
-                    display_progress.set("")
-                    progress['value'] = 0
-                    sleep(5)# 💤 
+                    elif password_fail in current_url:
+                        console.print("Password Fail", style="red")
+                        f = open(
+                            'logfiles/Password_Fail_Accounts.txt', 'a')
+                        f.write(str(i) + ' ' + str(username[i]) + '\n')
+                        f.close()
+                        paswd_fail_counter=paswd_fail_counter+1
+                        failed_account_count.set(paswd_fail_counter)
+                       
+                    else:
+                        console.print("Login Failed", style="red")
+                        f = open('logfiles/Failed_Accounts.txt', 'a')
+                        f.write(str(self.i) + ' ' + str(self.username) + '\n')
+                        f.close()
+                        failed_counter=failed_counter+1
+                        paswd_fail_accounts_count.set(failed_counter)
+                        
 
                     if i==len(username):
                         try:
+                            with open('logfiles/Working_Accounts.txt','r+') as f:
+                                f.truncate()
                             report()
                             print("reported")
                         except Exception as e:
                             print(e)
                             print("coudnt report")
+                        try:
+                            with open('logfiles/Working_Accounts.txt','r+') as f:
+                                f.truncate()
+                            report()
+                            print("interupt truncated")
+                        except Exception as e:
+                            print(e)
+                            print("coudnt interupt truncated")
+                        try:
+                            Working_Accounts = open('logfiles/Working_Accounts.txt', 'r+')
+                            Working_Accounts.truncate()
+                        
+                            Disabled_Accounts = open('logfiles/Disabled_Accounts.txt', 'r+')
+                            Disabled_Accounts.truncate()
+                            
+                            Failed_Accounts = open('logfiles/Failed_Accounts.txt', 'r+')
+                            Failed_Accounts.truncate()
 
+                            Password_Fail_Accounts = open('logfiles/Password_Fail_Accounts.txt', 'r+')
+                            Password_Fail_Accounts.truncate()
+                        
+                        except Exception as e:
+                            print(e)
+                        if stop == 1:   #⛔
+                            clean()
+                            break
             except Exception as e:
                     print(e)
                     print("some error")
@@ -265,7 +236,106 @@ def login():
             connection_status.set("No internet ...")
             sleep(3)# 💤 
             connection_status.set("")
+def login():
+    if stop == str(1):   #⛔
+        clean()
+        return
+    if Read_from_bot.get()==0:
 
+        with open('links/fblink.txt','r') as f:
+            link=f.readline()
+        print(link)
+
+    elif Read_from_bot.get()==1:
+        try:
+            url = f"https://api.telegram.org/bot{tooken}/getUpdates?offset=-1"
+
+            links = requests.get(url, verify=False)
+            time.sleep(delay)
+
+            getText = links.text
+
+            data = json.loads(getText)
+
+            try:
+                link = data['result'][0]['message']['text']
+            except Exception as e:
+                print(e)
+                pass
+
+            try:
+                link = data['result'][0]['edited_message']['text']
+            except Exception as e:
+                print(e)
+                pass
+            print(link)
+        except Exception as e:
+            print(e)
+    else:
+        print("can't get link")
+
+    
+
+    driver.get(link)
+    sleep(delay)
+    if stop == str(1):   #⛔
+        clean()
+        return
+    print("loged in")
+
+    #like
+    try: 
+        if lik==1:
+            print("like is on")
+            like(driver)
+            if stop == str(1):   #⛔
+                clean()
+                return
+        elif lik==0:
+            print("like is off")
+    except Exception as e:
+        print(e)
+        print("like is not working")
+
+    #share
+    try:
+        if shar==1:
+            print("share is on")
+            share(driver)
+            if stop == str(1):   #⛔
+                clean()
+                return
+        elif shar==0:
+            print("share is off")
+    except Exception as e:
+        print(e)
+        print("share is not working")
+
+    #comment
+    try:
+        if coment==1:
+            comment(driver)
+            if stop == str(1):   #⛔
+                clean()
+                return
+        elif coment==0:
+            print("comment is off")
+    except Exception as e:
+        print(e)
+        print("comment is not working")
+
+    #logout
+    try:
+        logout(driver)
+    except Exception as e:
+        print(e)
+        print("logout isnt working")
+    display_progress.set("")
+    progress['value'] = 0
+    sleep(5)# 💤 
+
+    
+                          
 def like(driver):
     try:
         like_buttons = driver.find_elements(By.CLASS_NAME,
@@ -333,13 +403,13 @@ def comment(driver):
 def logout(driver):
     sleep(delay)# 💤 
     driver.delete_all_cookies()
-    account = driver.find_element(By.CLASS_NAME, "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.xzsf02u.x1rg5ohu")
-    account.click()
+    account_counter = driver.find_element(By.CLASS_NAME, "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.xzsf02u.x1rg5ohu")
+    account_counter.click()
     print('logout')
     sleep(delay)# 💤 
     logout = driver.find_element(
         By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/div[2]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[5]/div[1]")
-    print(account)
+    print(account_counter)
     logout.click()
     print('success')
 
@@ -373,7 +443,7 @@ def start_thread():
 
     global stop
     stop = 0
-    t = Thread (target = login)
+    t = Thread (target = ጀምር)
     t.start()
     
 
@@ -464,7 +534,19 @@ def show_docmt():
   webbrowser.open_new(r'file:/home/amin/Documents/GitHub/Python-GUI/New_feed_notifier/doc/New_feed_notifier_documentation.pdf')
 
 def default():
-    pass
+ 
+    lik.set(1)
+    shar.set(1)
+    coment.set(0)
+    show_browser.set(0)
+    Ring_bell.set(1)
+    Read_from_bot.set(1)
+    account_from_googlesheet.set(1)
+    send_report.set(1)
+
+
+
+
 
 def report():
 
@@ -588,7 +670,7 @@ button_start = customtkinter.CTkButton(master=window,
     fg_color=('#516fad'),
     text='Start',
     command=start_thread)
-button_start.place(x=400,y=600)
+button_start.place(x=370,y=600)
 
 
 button_stop = customtkinter.CTkButton(master=window, 
@@ -616,7 +698,7 @@ progress = Progressbar(window,
     orient = HORIZONTAL,
     length = 140, 
     mode = 'determinate')
-progress.place(x =385,
+progress.place(x =370,
             y = 678)
 
 #like progress bar
@@ -668,7 +750,7 @@ display_progress.set("")
 Label(window,
     font=('Arial',8),
     text = display_progress.get(), 
-    textvariable = display_progress).place(x =538,y = 680)
+    textvariable = display_progress).place(x =520,y = 680)
 
 #No internet label  
 connection_status = StringVar()
@@ -691,30 +773,9 @@ Label(window,
     font="Arial 12 bold underline",
     compound='bottom',).place(x=80,y=312)
 
-
 global lik
 lik = IntVar()
 lik.set(1)
-
-global shar
-shar = IntVar()
-shar.set(1)
-
-global coment
-coment = IntVar()
-coment.set(0)
-
-global show_browser
-show_browser = IntVar()
-show_browser.set(0)
-
-global Ring_bell
-Ring_bell = IntVar()
-Ring_bell.set(1)
-
-
-
-
 Checkbutton(window, text = " Like",
 					variable = lik, ##516fad
                     font=("Arial",9,'bold'),
@@ -723,7 +784,9 @@ Checkbutton(window, text = " Like",
 					offvalue = 0,
 					height = 2,
 					width = 10).place(x=27,y=350)
-
+global shar
+shar = IntVar()
+shar.set(1)
 Checkbutton(window, text = " Share",
 					variable = shar, ##516fad
                     font=("Arial",9,'bold'),
@@ -732,7 +795,9 @@ Checkbutton(window, text = " Share",
 					offvalue = 0,
 					height = 2,
 					width = 10).place(x=30,y=400)
-
+global coment
+coment = IntVar()
+coment.set(0)
 Checkbutton(window, text = " Comment",
 					variable = coment, ##516fad
                     font=("Arial",9,'bold'),
@@ -740,21 +805,23 @@ Checkbutton(window, text = " Comment",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
-					width = 10).place(x=40,y=450)
+					width = 10).place(x=42,y=450)
 
 
 global account_from_googlesheet
 account_from_googlesheet = IntVar()
 account_from_googlesheet.set(1)
-Checkbutton(window, text = " Account from googlesheet",
+Checkbutton(window, text = " Read account from googlesheet",
 					variable = account_from_googlesheet,
                     font=("Arial",9,'bold'),
                     fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
-					width = 23).place(x=42,y=500)
-
+					width = 29).place(x=38,y=500)
+global show_browser
+show_browser = IntVar()
+show_browser.set(0)
 Checkbutton(window, text = " Show browser",
 					variable = show_browser, ##516fad
                     font=("Arial",9,'bold'),
@@ -763,7 +830,9 @@ Checkbutton(window, text = " Show browser",
 					offvalue = 0,
 					height = 2,
 					width = 11).place(x=160,y=350)
-
+global Ring_bell
+Ring_bell = IntVar()
+Ring_bell.set(1)
 Checkbutton(window, text = " Ring bell",
 					variable = Ring_bell,
                     font=("Arial",9,'bold'),
@@ -784,30 +853,22 @@ Checkbutton(window, text = " Read link from bot",
 					offvalue = 0,
 					height = 2,
 					width = 15).place(x=160,y=450)
-
+global send_report
+send_report = IntVar()
+send_report.set(1)
 Checkbutton(window, text = " Send report",
-					variable = Read_from_bot,
+					variable = send_report,
                     font=("Arial",9,'bold'),
                     fg="#5c0013",
 					onvalue = 1,
 					offvalue = 0,
 					height = 2,
-					width = 15).place(x=42,y=550)
+					width = 15).place(x=30,y=550)
 
 
+#current account_counter
 
-
-scan_user_image2=Image.open('pictures/ppl.png')
-sized_scan_user_image2=scan_user_image2.resize((40, 40))
-display_sized_scan_user_image2=ImageTk.PhotoImage(sized_scan_user_image2)
-scan_user_label2 = Label(image=display_sized_scan_user_image2)
-scan_user_label2.place(x=400,y=312)
-display_scaned_username = StringVar()
-display_scaned_username.set("")
-
-#current account
-
-scan_user_image=Image.open('pictures/contact.png')
+scan_user_image=Image.open('pictures/contact2.png')
 sized_scan_user_image=scan_user_image.resize((25, 25))
 display_sized_scan_user_image=ImageTk.PhotoImage(sized_scan_user_image)
 scan_user_label = Label(image=display_sized_scan_user_image)
@@ -820,21 +881,23 @@ Label(window,
     text = display_scaned_username.get(), 
     textvariable = display_scaned_username).place(x =500,y = 312)
 
-global total_like,total_share,total_coment
+global total_like
 total_like=0
+
+global total_share
 total_share=0
+
+global total_coment
 total_coment=0
 
-
-# current account
-
-like_count = StringVar()
-like_count.set(f"33")
+# current account_counter
+account_counter = StringVar()
+account_counter.set(f"")
 Label(window,
     fg='#3b5998',
     font="Arial 9 bold ",
-    text = like_count.get(), 
-    textvariable = like_count).place(x =453,y = 338)
+    text = account_counter.get(), 
+    textvariable = account_counter).place(x =445,y = 338)
 
 #total like
 Label(window,
@@ -843,7 +906,7 @@ Label(window,
     text = 'Like: ', 
     ).place(x =400,y = 400)
 like_count = StringVar()
-like_count.set(110)
+like_count.set(0)
 Label(window,
     fg='#3b5998',
     font="Arial 12 bold ",
@@ -879,6 +942,15 @@ Label(window,
     textvariable = comment_count).place(x =490,y = 500)
 
 
+
+global disabled_counter
+disabled_counter=0
+
+global failed_counter
+failed_counter=0
+
+global paswd_fail_counter
+paswd_fail_counter=0
 
 #total Disabled accounts
 Label(window,
