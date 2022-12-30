@@ -795,6 +795,16 @@ Checkbutton(window, text = " Send report",
 					width = 15).place(x=42,y=550)
 
 
+
+
+scan_user_image2=Image.open('pictures/ppl.png')
+sized_scan_user_image2=scan_user_image2.resize((40, 40))
+display_sized_scan_user_image2=ImageTk.PhotoImage(sized_scan_user_image2)
+scan_user_label2 = Label(image=display_sized_scan_user_image2)
+scan_user_label2.place(x=400,y=312)
+display_scaned_username = StringVar()
+display_scaned_username.set("")
+
 #current account
 
 scan_user_image=Image.open('pictures/contact.png')
@@ -815,6 +825,16 @@ total_like=0
 total_share=0
 total_coment=0
 
+
+# current account
+
+like_count = StringVar()
+like_count.set(f"33")
+Label(window,
+    fg='#3b5998',
+    font="Arial 9 bold ",
+    text = like_count.get(), 
+    textvariable = like_count).place(x =453,y = 338)
 
 #total like
 Label(window,
