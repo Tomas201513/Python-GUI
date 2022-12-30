@@ -499,7 +499,7 @@ button_default = customtkinter.CTkButton(master=window,
     font=('Arial',13,'bold'), 
     fg_color=('#516fad'), 
     text='Set default',command=default)
-button_default.place(x=70,y=550)
+button_default.place(x=70,y=600)
 
 
 
@@ -667,6 +667,83 @@ Label(window,
     font="Arial 12 bold ",
     text = display_progress.get(), 
     textvariable = display_progress).place(x =450,y = 400)
+
+#total comment
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold",
+    text = 'Comment: ', 
+    ).place(x =400,y = 450)
+display_progress = StringVar()
+display_progress.set("xxxxxxxxx")
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = display_progress.get(), 
+    textvariable = display_progress).place(x =490,y = 450)
+#share
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold",
+    text = 'Share: ', 
+    ).place(x =400,y = 500)
+display_progress = StringVar()
+display_progress.set("xxxxxxxxx")
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = display_progress.get(), 
+    textvariable = display_progress).place(x =460,y = 500)
+
+
+
+
+
+#total Disabled accounts
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold",
+    text = 'Disabled accounts: ', 
+    ).place(x =600,y = 400)
+display_progress = StringVar()
+display_progress.set("xxxxxxxxx")
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = display_progress.get(), 
+    textvariable = display_progress).place(x =750,y = 400)
+
+#total Failed accounts
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold",
+    text = 'Failed accounts: ', 
+    ).place(x =600,y = 450)
+display_progress = StringVar()
+display_progress.set("xxxxxxxxx")
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = display_progress.get(), 
+    textvariable = display_progress).place(x =750,y = 450)
+#total password fail accounts
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold",
+    text = 'Password fail: ', 
+    ).place(x =600,y = 500)
+display_progress = StringVar()
+display_progress.set("xxxxxxxxx")
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = display_progress.get(), 
+    textvariable = display_progress).place(x =750,y = 500)
+
+
+
+
+
 
 
 
