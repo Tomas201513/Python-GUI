@@ -640,6 +640,35 @@ Checkbutton(window, text = " Read linkfrom bot",
 					width = 15).place(x=160,y=450)
 
 
+#current account
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold underline",
+    text = 'Current account: ', 
+    ).place(x =400,y = 312)
+display_progress = StringVar()
+display_progress.set("xxxxxxxxxx")
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = display_progress.get(), 
+    textvariable = display_progress).place(x =600,y = 312)
+
+#total like
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold",
+    text = 'Like: ', 
+    ).place(x =400,y = 400)
+display_progress = StringVar()
+display_progress.set("xxxxxxxxx")
+Label(window,
+    fg='#3b5998',
+    font="Arial 12 bold ",
+    text = display_progress.get(), 
+    textvariable = display_progress).place(x =450,y = 400)
+
+
 
 #help ⋮
 help_image=Image.open('pictures/help.png')
